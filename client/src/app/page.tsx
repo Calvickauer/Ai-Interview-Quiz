@@ -1,6 +1,8 @@
+import styles from './page.module.css'
+
 export default function Page() {
   return (
-    <main className="flex min-h-screen items-center justify-center">
+    <main className={styles.main}>
       <h1 className="text-2xl font-bold">AI Interview Prep Quizzer</h1>
     </main>
   )

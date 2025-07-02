@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
+import styles from './page.module.css'
 
 interface Question {
   id: string
@@ -35,7 +36,7 @@ export default function QuizSessionPage() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center">
+      <main className={styles.main}>
         <p>Loading session...</p>
       </main>
     )
@@ -43,7 +44,7 @@ export default function QuizSessionPage() {
 
   if (!questions.length) {
     return (
-      <main className="flex min-h-screen items-center justify-center">
+      <main className={styles.main}>
         <p>No questions found.</p>
       </main>
     )
@@ -51,11 +52,11 @@ export default function QuizSessionPage() {
 
   const current = questions[index]
   return (
-    <main className="flex flex-col min-h-screen items-center p-4">
-      <div className="border p-4 w-full max-w-lg transition-all">
+    <main className={styles.main}>
+      <div className={styles.card}>
         <p>{current.prompt}</p>
       </div>
-      <div className="mt-4 space-x-4">
+      <div className={styles.buttons}>
         <button
           disabled={index === 0}
           onClick={() => setIndex((i) => Math.max(0, i - 1))}

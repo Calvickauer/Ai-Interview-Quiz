@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import styles from './page.module.css'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -25,7 +26,7 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center">
+    <main className={styles.main}>
       <form onSubmit={handleSubmit} className="space-y-4">
         <h1 className="text-2xl font-bold">Login</h1>
         <input
