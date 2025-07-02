@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function QuizStartPage() {
   const [role, setRole] = useState('')
@@ -8,13 +9,34 @@ export default function QuizStartPage() {
   const [technology, setTechnology] = useState('')
   const [listingDescription, setListingDescription] = useState('')
   const [jobDescriptionUrl, setJobDescriptionUrl] = useState('')
-  const [questions, setQuestions] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError('')
+    if (
+      !role &&
+      !techStack &&
+      !technology &&
+      !listingDescription &&
+      !jobDescriptionUrl
+    ) {
+      setError('Please provide at least one field to generate questions.')
+      return
+    }
+
+    const token = localStorage.getItem('token')
+    const userId = token ? JSON.parse(atob(token.split('.')[1])).id : ''
+
+    setLoading(true)
     const res = await fetch('/api/quiz', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-user-id': userId,
+      },
       body: JSON.stringify({
         role,
         techStack,
@@ -23,12 +45,14 @@ export default function QuizStartPage() {
         jobDescriptionUrl,
       }),
     })
+    setLoading(false)
 
     if (res.ok) {
       const data = await res.json()
-      setQuestions(data.questions)
+      router.push(`/quiz/session/${data.sessionId}`)
     } else {
-      alert('Failed to start quiz')
+      const err = await res.json()
+      setError(err.error || 'Failed to start quiz')
     }
   }
 
@@ -74,11 +98,8 @@ export default function QuizStartPage() {
           Generate Quiz
         </button>
       </form>
-      {questions && (
-        <div className="mt-6 whitespace-pre-line w-full max-w-md border p-4">
-          {questions}
-        </div>
-      )}
+      {loading && <p className="mt-4">Generating questions...</p>}
+      {error && <p className="mt-2 text-red-500">{error}</p>}
     </main>
   )
 }
