@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import formidable from 'formidable'
 import { promises as fs } from 'fs'
 import path from 'path'
-import prisma from '../../../shared/db'
+import prisma from '../../lib/db'
 
 export const config = {
   api: {
