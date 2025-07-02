@@ -1,30 +1,37 @@
-datasource db { provider = "sqlite"; url = "file:../dev.db" }
+datasource db {
+  provider = "sqlite"
+  url      = "file:../dev.db"
+}
 
-generator client { provider = "prisma-client-js" }
+generator client {
+  provider = "prisma-client-js"
+}
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        String    @id @default(cuid())
+  email     String    @unique
   password  String
   username  String
   avatarUrl String?
   role      String
-  sessions  Session[]
+  sessions  Session[]    // one-to-many → Session.user
 }
 
 model Session {
   id             String     @id @default(cuid())
   userId         String
+  user           User       @relation(fields: [userId], references: [id])
   role           String
   totalQuestions Int
   correctCount   Int
   createdAt      DateTime   @default(now())
-  questions      Question[]
+  questions      Question[] // one-to-many → Question.session
 }
 
 model Question {
-  id          String  @id @default(cuid())
+  id          String   @id @default(cuid())
   sessionId   String
+  session     Session  @relation(fields: [sessionId], references: [id])
   prompt      String
   hint        String
   modelAnswer String
