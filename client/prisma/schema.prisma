@@ -1,0 +1,32 @@
+datasource db { provider = "sqlite"; url = "file:../dev.db" }
+
+generator client { provider = "prisma-client-js" }
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  username  String
+  avatarUrl String?
+  role      String
+  sessions  Session[]
+}
+
+model Session {
+  id             String     @id @default(cuid())
+  userId         String
+  role           String
+  totalQuestions Int
+  correctCount   Int
+  createdAt      DateTime   @default(now())
+  questions      Question[]
+}
+
+model Question {
+  id          String  @id @default(cuid())
+  sessionId   String
+  prompt      String
+  hint        String
+  modelAnswer String
+  userCorrect Boolean?
+}
