@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import styles from './page.module.css'
 
 export default function QuizStartPage() {
   const [role, setRole] = useState('')
@@ -57,7 +58,7 @@ export default function QuizStartPage() {
   }
 
   return (
-    <main className="flex flex-col min-h-screen items-center p-4">
+    <main className={styles.main}>
       <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md">
         <h1 className="text-2xl font-bold">Start Quiz</h1>
         <input

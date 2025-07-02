@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import styles from './page.module.css'
 
 export default function ProfilePage() {
   const [avatar, setAvatar] = useState<File | null>(null)
@@ -39,7 +40,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center">
+    <main className={styles.main}>
       <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
         <h1 className="text-2xl font-bold">Complete Your Profile</h1>
         <input type="file" accept="image/*" onChange={(e) => setAvatar(e.target.files?.[0] || null)} />
