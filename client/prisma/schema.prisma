@@ -13,6 +13,7 @@ model User {
   password  String
   username  String
   avatarUrl String?
+  bio       String?
   role      String
   sessions  Session[]    // one-to-many → Session.user
 }

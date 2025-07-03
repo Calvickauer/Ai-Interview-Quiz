@@ -8,7 +8,6 @@ export default function ProfilePage() {
   const [avatar, setAvatar] = useState<File | null>(null)
   const [username, setUsername] = useState('')
   const [bio, setBio] = useState('')
-  const [role, setRole] = useState('')
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -21,10 +20,9 @@ export default function ProfilePage() {
     form.append('avatar', avatar)
     form.append('username', username)
     form.append('bio', bio)
-    form.append('role', role)
 
     const token = localStorage.getItem('token')
-    const res = await fetch('/api/user', {
+    const res = await fetch('/api/user/update', {
       method: 'POST',
       headers: {
         'x-user-id': token ? JSON.parse(atob(token.split('.')[1])).id : ''
@@ -43,7 +41,12 @@ export default function ProfilePage() {
     <main className={styles.main}>
       <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
         <h1 className="text-2xl font-bold">Complete Your Profile</h1>
-        <input type="file" accept="image/*" onChange={(e) => setAvatar(e.target.files?.[0] || null)} />
+        <input
+          aria-label="avatar"
+          type="file"
+          accept="image/*"
+          onChange={(e) => setAvatar(e.target.files?.[0] || null)}
+        />
         <input
           type="text"
           placeholder="Username"
@@ -56,13 +59,6 @@ export default function ProfilePage() {
           className="border p-2 w-full"
           value={bio}
           onChange={(e) => setBio(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Role"
-          className="border p-2 w-full"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
         />
         <button type="submit" className="bg-blue-500 text-white px-4 py-2">Save</button>
       </form>
