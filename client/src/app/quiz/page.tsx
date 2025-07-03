@@ -64,47 +64,47 @@ export default function QuizStartPage() {
   return (
     <main className={styles.main}>
       <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md">
-        <h1 className="text-2xl font-bold">Create Quiz</h1>
-        <label htmlFor="role" className="block">Role</label>
+        <h1 className="text-2xl font-bold text-center">Create Quiz</h1>
+        <label htmlFor="role" className="block text-2xl">Role</label>
         <input
           id="role"
           type="text"
-          placeholder="Role \u2013 e.g. Frontend Developer, QA Engineer (optional)"
+          placeholder="e.g. Frontend Developer, QA Engineer (optional)"
           className="border p-2 w-full"
           value={role}
           onChange={(e) => setRole(e.target.value)}
         />
-        <label htmlFor="techStack" className="block">Tech Stack</label>
+        <label htmlFor="techStack" className="block text-2xl">Tech Stack</label>
         <input
           id="techStack"
           type="text"
-          placeholder="Tech Stack \u2013 e.g. MERN, LAMP (optional)"
+          placeholder="e.g. MERN, LAMP (optional)"
           className="border p-2 w-full"
           value={techStack}
           onChange={(e) => setTechStack(e.target.value)}
         />
-        <label htmlFor="technology" className="block">Technologies</label>
+        <label htmlFor="technology" className="block text-2xl">Technologies</label>
         <input
           id="technology"
           type="text"
-          placeholder="Technologies \u2013 e.g. React, Docker (optional)"
+          placeholder="e.g. React, Docker (optional)"
           className="border p-2 w-full"
           value={technology}
           onChange={(e) => setTechnology(e.target.value)}
         />
-        <label htmlFor="listing" className="block">Listing Description</label>
+        <label htmlFor="listing" className="block text-2xl">Listing Description</label>
         <textarea
           id="listing"
-          placeholder="Listing Description \u2013 e.g. develop APIs, maintain infra (optional)"
+          placeholder="e.g. develop APIs, maintain infra (optional)"
           className="border p-2 w-full"
           value={listingDescription}
           onChange={(e) => setListingDescription(e.target.value)}
         />
-        <label htmlFor="jobUrl" className="block">Job Description URL</label>
+        <label htmlFor="jobUrl" className="block text-2xl">Job Description URL</label>
         <input
           id="jobUrl"
           type="url"
-          placeholder="Job Description URL \u2013 e.g. https://example.com/job, https://jobs.site/id (optional)"
+          placeholder="e.g. https://example.com/job, https://jobs.site/id (optional)"
           className="border p-2 w-full"
           value={jobDescriptionUrl}
           onChange={(e) => setJobDescriptionUrl(e.target.value)}
