@@ -29,14 +29,18 @@ export default function LoginPage() {
     <main className={styles.main}>
       <form onSubmit={handleSubmit} className="space-y-4">
         <h1 className="text-2xl font-bold">Login</h1>
+        <label htmlFor="email" className="block">Email</label>
         <input
+          id="email"
           type="email"
           placeholder="Email"
           className="border p-2 w-full"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        <label htmlFor="password" className="block">Password</label>
         <input
+          id="password"
           type="password"
           placeholder="Password"
           className="border p-2 w-full"

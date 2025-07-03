@@ -76,20 +76,26 @@ export default function ProfilePage() {
           {avatarUrl && (
             <img src={avatarUrl} alt="avatar" className="h-24 w-24 rounded-full" />
           )}
+          <label htmlFor="avatar" className="block">Avatar</label>
           <input
+            id="avatar"
             aria-label="avatar"
             type="file"
             accept="image/*"
             onChange={(e) => setAvatar(e.target.files?.[0] || null)}
           />
+          <label htmlFor="username" className="block">Username</label>
           <input
+            id="username"
             type="text"
             placeholder="Username"
             className="border p-2 w-full"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
+          <label htmlFor="bio" className="block">Bio</label>
           <textarea
+            id="bio"
             placeholder="Bio"
             className="border p-2 w-full"
             value={bio}

@@ -31,21 +31,27 @@ export default function SignUpPage() {
     <main className={styles.main}>
       <form onSubmit={handleSubmit} className="space-y-4">
         <h1 className="text-2xl font-bold">Sign Up</h1>
+        <label htmlFor="username" className="block">Username</label>
         <input
+          id="username"
           type="text"
           placeholder="Username"
           className="border p-2 w-full"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
+        <label htmlFor="email" className="block">Email</label>
         <input
+          id="email"
           type="email"
           placeholder="Email"
           className="border p-2 w-full"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        <label htmlFor="password" className="block">Password</label>
         <input
+          id="password"
           type="password"
           placeholder="Password"
           className="border p-2 w-full"

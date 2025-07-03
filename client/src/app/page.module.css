@@ -1,3 +1,7 @@
 .main {
   @apply flex flex-grow items-center justify-center p-4 text-center;
 }
+
+.card {
+  @apply border p-6 bg-white rounded shadow max-w-xl;
+}
