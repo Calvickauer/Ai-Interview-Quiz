@@ -26,6 +26,7 @@ an avatar and short bio.
    npm run lint
    npm test
    ```
+5. Configure environment variables by copying `.env.example` to `.env` and updating the values.
 
 The application stores user data in a SQLite database using Prisma. After cloning
 the repo you can inspect the `client/prisma/schema.prisma` file which describes
@@ -62,3 +63,23 @@ the database models. New fields can be added and migrations generated with
   profile.
 - **Testing:** Jest and React Testing Library are configured inside `client/` to
   ensure pages behave as expected.
+
+## Deployment with Vercel
+
+1. Ensure you have the Vercel CLI installed or run it with `npx`:
+   ```bash
+   npm install -g vercel # optional
+   ```
+2. Sign in to Vercel:
+   ```bash
+   vercel login
+   ```
+3. Set the required environment variables in Vercel:
+   - `OPENAI_API_KEY`
+   - `JWT_SECRET`
+   - `DATABASE_URL` (e.g. `file:./dev.db` for the bundled SQLite database)
+4. Deploy from the repository root using the provided script:
+   ```bash
+   ./deploy.sh
+   ```
+   The script calls `vercel --prod` with the project located in the `client/` directory.
