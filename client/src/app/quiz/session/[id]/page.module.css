@@ -1,5 +1,5 @@
 .main {
-  @apply flex flex-col flex-grow items-center p-4;
+  @apply flex flex-col flex-grow items-center p-4 gap-4;
 }
 .card {
   @apply border p-4 w-full max-w-lg transition-all bg-white rounded shadow;

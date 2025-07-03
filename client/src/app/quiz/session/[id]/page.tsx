@@ -117,16 +117,35 @@ export default function QuizSessionPage() {
       </div>
       <p className="mb-2">Correct: {correctCount} | Incorrect: {incorrectCount}</p>
       <div
-        className={`${styles.card} ${answered ? (results[current.id].correct ? 'border-green-500' : 'border-red-500') : ''}`}
+        className={`${styles.card} ${answered ? (results[current.id].correct ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50') : ''}`}
       >
         <p>{current.prompt}</p>
-        {showHint && <p className="mt-2 italic">Hint: {current.hint}</p>}
-        {showAnswer && <p className="mt-2">Answer: {current.modelAnswer}</p>}
+        {showHint && (
+          <p className="mt-2 italic bg-yellow-50 p-2 rounded" data-testid="hint">
+            Hint: {current.hint}
+          </p>
+        )}
+        {showAnswer && (
+          <p className="mt-2 bg-blue-50 p-2 rounded" data-testid="revealed-answer">
+            Answer: {current.modelAnswer}
+          </p>
+        )}
       </div>
       {current.options ? (
         <div className="flex flex-col gap-2 mt-4 w-full max-w-lg">
           {current.options.map((opt, i) => (
-            <label key={i} className="flex items-center gap-2">
+            <label
+              key={i}
+              className={`flex items-center gap-2 p-2 rounded ${
+                results[current.id]
+                  ? answers[current.id] === opt
+                    ? results[current.id].correct
+                      ? 'bg-green-100'
+                      : 'bg-red-100'
+                    : ''
+                  : ''
+              }`}
+            >
               <input
                 type="radio"
                 name={`q-${current.id}`}
@@ -141,7 +160,13 @@ export default function QuizSessionPage() {
         </div>
       ) : (
         <textarea
-          className="border p-2 w-full max-w-lg mt-4"
+          className={`border p-2 w-full max-w-lg mt-4 ${
+            answered
+              ? results[current.id].correct
+                ? 'border-green-500 bg-green-50'
+                : 'border-red-500 bg-red-50'
+              : ''
+          }`}
           value={answers[current.id] || ''}
           onChange={(e) =>
             setAnswers((a) => ({ ...a, [current.id]: e.target.value }))
@@ -180,7 +205,13 @@ export default function QuizSessionPage() {
         Check Answer
       </button>
       {results[current.id] && (
-        <div className={styles.feedback}>
+        <div
+          className={`${styles.feedback} ${
+            results[current.id].correct
+              ? 'border-green-500 bg-green-50'
+              : 'border-red-500 bg-red-50'
+          }`}
+        >
           <p
             className={`font-bold ${results[current.id].correct ? 'text-green-600' : 'text-red-600'}`}
           >
