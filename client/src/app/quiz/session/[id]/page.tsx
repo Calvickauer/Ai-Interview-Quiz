@@ -61,11 +61,10 @@ export default function QuizSessionPage() {
   if (loading) {
     return (
       <main className={styles.main}>
-        <div
-          dangerouslySetInnerHTML={{
-            __html:
-              '<div class="tenor-gif-embed" data-postid="22865479" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/uh-stand-by-randy-marsh-south-park-s13e6-pinewood-derby-gif-22865479">Uh Stand By Randy Marsh Sticker</a>from <a href="https://tenor.com/search/uh+stand+by-stickers">Uh Stand By Stickers</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>',
-          }}
+        <img
+          src="https://media.tenor.com/w7SZOxb2A_MAAAAi/south-park-randy.gif"
+          alt="loading"
+          className="mx-auto"
         />
       </main>
     )
@@ -108,6 +107,14 @@ export default function QuizSessionPage() {
   }
   return (
     <main className={styles.main}>
+      <div className="w-full max-w-lg mb-2">
+        <div className="h-2 bg-gray-200 rounded">
+          <div
+            className="h-2 bg-blue-500 rounded"
+            style={{ width: `${((index + (answered ? 1 : 0)) / questions.length) * 100}%` }}
+          />
+        </div>
+      </div>
       <p className="mb-2">Correct: {correctCount} | Incorrect: {incorrectCount}</p>
       <div
         className={`${styles.card} ${answered ? (results[current.id].correct ? 'border-green-500' : 'border-red-500') : ''}`}

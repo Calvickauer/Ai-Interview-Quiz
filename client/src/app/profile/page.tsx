@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import styles from './page.module.css'
 
 export default function ProfilePage() {
   const [avatar, setAvatar] = useState<File | null>(null)
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const [username, setUsername] = useState('')
   const [bio, setBio] = useState('')
   const [sessions, setSessions] = useState<any[]>([])
@@ -26,6 +28,7 @@ export default function ProfilePage() {
         console.log('Loaded profile', data)
         setUsername(data.username || '')
         setBio(data.bio || '')
+        setAvatarUrl(data.avatarUrl || null)
         setSessions(data.sessions || [])
       })
       .catch((err) => console.error('Profile fetch error', err))
@@ -53,7 +56,11 @@ export default function ProfilePage() {
     })
 
     if (res.ok) {
-      router.push('/quiz')
+      const data = await res.json()
+      const url = data.user?.avatarUrl || data.avatarUrl
+      if (url) setAvatarUrl(url)
+      setAvatar(null)
+      alert('Profile updated')
     } else {
       alert('Profile update failed')
     }
@@ -63,6 +70,9 @@ export default function ProfilePage() {
       <main className={styles.main}>
         <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
           <h1 className="text-2xl font-bold">Complete Your Profile</h1>
+          {avatarUrl && (
+            <img src={avatarUrl} alt="avatar" className="h-24 w-24 rounded-full" />
+          )}
           <input
             aria-label="avatar"
             type="file"
@@ -86,14 +96,29 @@ export default function ProfilePage() {
         </form>
         {sessions.length > 0 && (
           <section className="mt-8 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-2">Quiz History</h2>
+            <h2 className="text-xl font-bold mb-2">Open Quizzes</h2>
+            <ul className="space-y-1 mb-4">
+              {sessions
+                .filter((s) => s.correctCount < s.totalQuestions)
+                .map((s) => (
+                  <li key={s.id}>
+                    <Link className="underline" href={`/quiz/session/${s.id}`}>{`
+                      ${s.role} - ${s.correctCount}/${s.totalQuestions} ${s.multipleChoice ? '(MC)' : '(Open)'}
+                    `}</Link>
+                  </li>
+                ))}
+            </ul>
+            <h2 className="text-xl font-bold mb-2">Finished Quizzes</h2>
             <ul className="space-y-1">
-              {sessions.map((s) => (
-                <li key={s.id}>
-                  {s.role} - {s.correctCount}/{s.totalQuestions}{' '}
-                  {s.multipleChoice ? '(MC)' : '(Open)'}
-                </li>
-              ))}
+              {sessions
+                .filter((s) => s.correctCount === s.totalQuestions)
+                .map((s) => (
+                  <li key={s.id}>
+                    <Link className="underline" href={`/quiz/session/${s.id}/summary`}>{`
+                      ${s.role} - ${s.correctCount}/${s.totalQuestions} ${s.multipleChoice ? '(MC)' : '(Open)'}
+                    `}</Link>
+                  </li>
+                ))}
             </ul>
           </section>
         )}
