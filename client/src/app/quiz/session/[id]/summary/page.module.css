@@ -1,0 +1,7 @@
+.main {
+  @apply flex flex-col flex-grow items-center p-4;
+}
+
+.card {
+  @apply border p-4 w-full bg-white rounded shadow;
+}
