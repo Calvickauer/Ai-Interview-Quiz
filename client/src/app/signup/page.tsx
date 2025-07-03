@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import styles from './page.module.css'
+import GoogleSignIn from '../../components/GoogleSignIn'
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('')
@@ -19,9 +20,7 @@ export default function SignUpPage() {
       body: JSON.stringify({ action: 'signup', email, password, username }),
     })
     if (res.ok) {
-      const data = await res.json()
-      localStorage.setItem('token', data.token)
-      router.push('/loading?next=/profile')
+      router.push(`/signup/verify?email=${encodeURIComponent(email)}`)
     } else {
       alert('Signup failed')
     }
@@ -62,6 +61,22 @@ export default function SignUpPage() {
           Sign Up
         </button>
       </form>
+      <div className="mt-4">
+        <GoogleSignIn onSuccess={async (token) => {
+          const res = await fetch('/api/auth/google', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token }),
+          })
+          if (res.ok) {
+            const data = await res.json()
+            localStorage.setItem('token', data.token)
+            router.push('/profile')
+          } else {
+            alert('Google sign-in failed')
+          }
+        }} />
+      </div>
     </main>
   )
 }

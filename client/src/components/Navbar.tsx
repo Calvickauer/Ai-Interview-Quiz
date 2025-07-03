@@ -9,6 +9,7 @@ export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const [username, setUsername] = useState('')
+  const [role, setRole] = useState('user')
   const [menuOpen, setMenuOpen] = useState(false)
   const router = useRouter()
 
@@ -25,6 +26,7 @@ export default function Navbar() {
           if (data) {
             setAvatarUrl(data.avatarUrl || null)
             setUsername(data.username || '')
+            if (data.role) setRole(data.role)
           }
         })
         .catch(() => {})
@@ -100,6 +102,11 @@ export default function Navbar() {
             <Link href="/profile" onClick={() => setMenuOpen(false)}>
               Profile
             </Link>
+            {role === 'admin' && (
+              <Link href="/admin" onClick={() => setMenuOpen(false)}>
+                Admin
+              </Link>
+            )}
             {(avatarUrl || username) && (
               <Link
                 href="/profile"

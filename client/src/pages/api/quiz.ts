@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { openai } from '../../lib/openai'
 import prisma from '../../lib/db'
+import { enforceQuizQuota } from '../../lib/quota'
 
 interface QuizRequest {
   role?: string
@@ -38,6 +39,12 @@ export default async function handler(
   const userId = req.headers['x-user-id'] as string | undefined
   if (!userId) {
     return res.status(401).json({ error: 'Missing user id' })
+  }
+
+  try {
+    await enforceQuizQuota(userId)
+  } catch (err) {
+    return res.status(403).json({ error: err.message })
   }
 
   let jobDescription = ''

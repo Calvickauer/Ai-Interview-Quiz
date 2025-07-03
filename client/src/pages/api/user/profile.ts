@@ -19,6 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       username: user.username,
       bio: user.bio,
       avatarUrl: user.avatarUrl,
+      role: user.role,
       sessions: user.sessions.map((s) => ({
         id: s.id,
         role: s.role,
