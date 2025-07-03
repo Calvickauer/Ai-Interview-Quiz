@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import styles from './page.module.css'
+import Loader from '../../components/Loader'
 
 export default function QuizStartPage() {
   const [role, setRole] = useState('')
@@ -111,12 +112,9 @@ export default function QuizStartPage() {
         </button>
       </form>
       {loading && (
-        <div className="mt-4 text-center" data-testid="loading-gif">
-          <img
-            src="https://media.tenor.com/w7SZOxb2A_MAAAAi/south-park-randy.gif"
-            alt="loading"
-            className="mx-auto" />
-          <p>Generating questions...</p>
+        <div className="mt-4 text-center" data-testid="loading">
+          <Loader />
+          <p className="mt-2">Generating questions...</p>
         </div>
       )}
       {error && <p className="mt-2 text-red-500">{error}</p>}
