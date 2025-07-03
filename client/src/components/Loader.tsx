@@ -2,7 +2,7 @@
 export default function Loader() {
   return (
     <div className="
-      w-10 aspect-square rounded-full border-2 border-current text-black
+      m-4 w-10 aspect-square rounded-full border-2 border-current text-black
       box-border relative origin-left animate-l2
       before:content-[''] before:absolute before:inset-0_0_auto before:m-auto
       before:w-1/2 before:aspect-square before:rounded-full before:border-2
