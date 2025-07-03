@@ -22,6 +22,7 @@ model Session {
   userId         String
   user           User       @relation(fields: [userId], references: [id])
   role           String
+  multipleChoice Boolean   @default(false)
   totalQuestions Int
   correctCount   Int
   createdAt      DateTime   @default(now())
@@ -35,5 +36,6 @@ model Question {
   prompt      String
   hint        String
   modelAnswer String
+  options     String?
   userCorrect Boolean?
 }
