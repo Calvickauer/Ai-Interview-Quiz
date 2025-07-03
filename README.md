@@ -3,8 +3,8 @@
 This repository contains a **Next.js** and **Prisma** based application used to
 generate interview quizzes with help from AI.  The frontend lives in the
 `client/` folder while shared database utilities are stored in `shared/`.
-Users can sign up, log in, generate quizzes and now update their profile with an
-avatar and short bio.
+Users can sign up, log in, generate quizzes and maintain a personal profile with
+an avatar and short bio.
 
 ## Setup
 
@@ -21,8 +21,9 @@ avatar and short bio.
    ```bash
    npm run dev
    ```
-4. Run the test suite.
+4. Run the linter and test suite.
    ```bash
+   npm run lint
    npm test
    ```
 
@@ -55,5 +56,9 @@ the database models. New fields can be added and migrations generated with
   editing a short bio. The form posts `multipart/form-data` to the API route at
   `pages/api/user/update.ts` which saves the file to `public/uploads` and updates
   the authenticated user.
+- **Responsive Navigation:** the top navigation bar adapts to mobile, tablet and
+  desktop widths. A hamburger menu appears on small screens and there is
+  generous spacing on each side. The avatar and username in the bar link to your
+  profile.
 - **Testing:** Jest and React Testing Library are configured inside `client/` to
   ensure pages behave as expected.
