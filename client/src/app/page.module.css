@@ -1,5 +1,5 @@
 .main {
-  @apply flex flex-grow items-center justify-center p-4 text-center;
+  @apply items-center justify-center p-4 text-center;
 }
 
 .card {
