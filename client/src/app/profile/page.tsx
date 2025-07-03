@@ -109,7 +109,7 @@ export default function ProfilePage() {
       ) : (
         <div className="space-y-4 text-center">
           {avatarUrl && (
-            <img src={avatarUrl} alt="avatar" className="h-24 w-24 rounded-full mx-auto" />
+            <img src={avatarUrl} alt="avatar" className="h-24 w-24 rounded-full mx-auto border-4 border-blue-500" />
           )}
           <h1 className="text-2xl font-semibold">{username}</h1>
           <p>{bio}</p>
