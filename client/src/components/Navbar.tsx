@@ -87,18 +87,18 @@ export default function Navbar() {
       <div
         className={`${
           menuOpen ? 'flex' : 'hidden'
-        } w-full flex-col sm:flex-row sm:flex items-center gap-4 sm:w-auto`}
+        } w-full flex-col sm:flex-row sm:flex items-center gap-12 sm:w-auto`}
       >
         <Link href="/" onClick={() => setMenuOpen(false)}>
           Home
         </Link>
         {loggedIn ? (
           <>
-            <Link href="/profile" onClick={() => setMenuOpen(false)}>
-              Profile
-            </Link>
             <Link href="/quiz" onClick={() => setMenuOpen(false)}>
               Quiz
+            </Link>
+            <Link href="/profile" onClick={() => setMenuOpen(false)}>
+              Profile
             </Link>
             {(avatarUrl || username) && (
               <Link
@@ -118,7 +118,7 @@ export default function Navbar() {
                 handleSignOut()
               }}
             >
-              Sign Out
+              Logout
             </button>
           </>
         ) : (
