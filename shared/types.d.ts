@@ -4,6 +4,7 @@ export interface User {
   password: string
   username: string
   avatarUrl?: string
+  bio?: string
   role: string
 }
 
