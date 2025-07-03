@@ -11,6 +11,7 @@ export default function ProfilePage() {
   const [username, setUsername] = useState('')
   const [bio, setBio] = useState('')
   const [sessions, setSessions] = useState<any[]>([])
+  const [editing, setEditing] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -61,15 +62,17 @@ export default function ProfilePage() {
       if (url) setAvatarUrl(url)
       setAvatar(null)
       alert('Profile updated')
+      setEditing(false)
     } else {
       alert('Profile update failed')
     }
   }
 
-    return (
-      <main className={styles.main}>
+  return (
+    <main className={styles.main}>
+      {editing ? (
         <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
-          <h1 className="text-2xl font-bold">Complete Your Profile</h1>
+          <h1 className="text-2xl font-bold">Edit Profile</h1>
           {avatarUrl && (
             <img src={avatarUrl} alt="avatar" className="h-24 w-24 rounded-full" />
           )}
@@ -92,8 +95,21 @@ export default function ProfilePage() {
             value={bio}
             onChange={(e) => setBio(e.target.value)}
           />
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2">Save</button>
+          <div className="flex gap-2">
+            <button type="submit" className="bg-blue-500 text-white px-4 py-2">Save</button>
+            <button type="button" className="px-4 py-2 border" onClick={() => setEditing(false)}>Cancel</button>
+          </div>
         </form>
+      ) : (
+        <div className="space-y-4 text-center">
+          {avatarUrl && (
+            <img src={avatarUrl} alt="avatar" className="h-24 w-24 rounded-full mx-auto" />
+          )}
+          <h1 className="text-2xl font-bold">{username}</h1>
+          <p>{bio}</p>
+          <button className="bg-blue-500 text-white px-4 py-2" onClick={() => setEditing(true)}>Edit Profile</button>
+        </div>
+      )}
         {sessions.length > 0 && (
           <section className="mt-8 w-full max-w-md">
             <h2 className="text-xl font-bold mb-2">Open Quizzes</h2>

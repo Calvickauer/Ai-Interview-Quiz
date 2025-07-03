@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import styles from './page.module.css'
 
 interface Question {
@@ -19,8 +19,24 @@ interface SessionData {
 export default function QuizSummaryPage() {
   const params = useParams() as Record<string, string>
   const id = params.id
+  const router = useRouter()
   const [data, setData] = useState<SessionData | null>(null)
   const [loading, setLoading] = useState(true)
+
+  const handleRetake = async () => {
+    const res = await fetch(`/api/session/${id}/reset`, { method: 'POST' })
+    if (res.ok) {
+      router.push(`/quiz/session/${id}`)
+    }
+  }
+
+  const handleNew = async () => {
+    const res = await fetch(`/api/session/${id}/new`, { method: 'POST' })
+    if (res.ok) {
+      const data = await res.json()
+      router.push(`/quiz/session/${data.sessionId}`)
+    }
+  }
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -68,6 +84,20 @@ export default function QuizSummaryPage() {
           </li>
         ))}
       </ul>
+      <div className="flex gap-2 mt-4">
+        <button
+          onClick={handleRetake}
+          className="bg-blue-500 text-white px-3 py-1"
+        >
+          Retake Quiz
+        </button>
+        <button
+          onClick={handleNew}
+          className="bg-green-500 text-white px-3 py-1"
+        >
+          New Questions
+        </button>
+      </div>
     </main>
   )
 }
