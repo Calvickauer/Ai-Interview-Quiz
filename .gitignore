@@ -8,3 +8,5 @@ client/.next
 client/out
 dev.db
 client/.env
+# in .gitignore (repo root)
+client/.env.local
