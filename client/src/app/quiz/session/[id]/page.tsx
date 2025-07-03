@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import styles from './page.module.css'
+import Loader from '../../../../components/Loader'
 
 interface Question {
   id: string
@@ -61,11 +62,7 @@ export default function QuizSessionPage() {
   if (loading) {
     return (
       <main className={styles.main}>
-        <img
-          src="https://media.tenor.com/w7SZOxb2A_MAAAAi/south-park-randy.gif"
-          alt="loading"
-          className="mx-auto"
-        />
+        <Loader />
       </main>
     )
   }

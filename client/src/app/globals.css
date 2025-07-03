@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@keyframes l2 {
+  to { transform: rotate(1turn); }
+}
+@keyframes l2-reverse {
+  to { transform: rotate(-1turn); }
+}
+.animate-l2 {
+  animation: l2 1s linear infinite;
+}
+.animate-l2-reverse {
+  animation: l2-reverse 1s linear infinite;
+}
