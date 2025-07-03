@@ -67,34 +67,34 @@ export default function QuizStartPage() {
         <h1 className="text-2xl font-bold">Start Quiz</h1>
         <input
           type="text"
-          placeholder="Role"
+          placeholder="Role \u2013 e.g. Frontend Developer, QA Engineer (optional)"
           className="border p-2 w-full"
           value={role}
           onChange={(e) => setRole(e.target.value)}
         />
         <input
           type="text"
-          placeholder="Tech Stack"
+          placeholder="Tech Stack \u2013 e.g. MERN, LAMP (optional)"
           className="border p-2 w-full"
           value={techStack}
           onChange={(e) => setTechStack(e.target.value)}
         />
         <input
           type="text"
-          placeholder="Technologies"
+          placeholder="Technologies \u2013 e.g. React, Docker (optional)"
           className="border p-2 w-full"
           value={technology}
           onChange={(e) => setTechnology(e.target.value)}
         />
         <textarea
-          placeholder="Listing Description"
+          placeholder="Listing Description \u2013 e.g. develop APIs, maintain infra (optional)"
           className="border p-2 w-full"
           value={listingDescription}
           onChange={(e) => setListingDescription(e.target.value)}
         />
         <input
           type="url"
-          placeholder="Job Description URL"
+          placeholder="Job Description URL \u2013 e.g. https://example.com/job, https://jobs.site/id (optional)"
           className="border p-2 w-full"
           value={jobDescriptionUrl}
           onChange={(e) => setJobDescriptionUrl(e.target.value)}
