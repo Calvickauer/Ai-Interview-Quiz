@@ -19,7 +19,7 @@ export default function LoadingScreen() {
     fetch('/api/user/profile', { headers: { 'x-user-id': userId } })
       .then((res) => (res.ok ? res.json() : Promise.reject()))
       .then(() => {
-        const next = params.get('next') || '/dashboard'
+        const next = params?.get('next') || '/dashboard'
         router.replace(next)
       })
       .catch(() => {

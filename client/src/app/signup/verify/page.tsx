@@ -6,7 +6,7 @@ import styles from '../page.module.css'
 
 export default function VerifyPage() {
   const params = useSearchParams()
-  const email = params.get('email') || ''
+  const email = params?.get('email') || ''
   const [code, setCode] = useState('')
   const router = useRouter()
 

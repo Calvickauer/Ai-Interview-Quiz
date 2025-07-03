@@ -26,7 +26,7 @@ an avatar and short bio.
    npm run lint
    npm test
    ```
-5. Configure environment variables by copying `.env.example` to `.env` and updating the values.
+5. Configure environment variables by copying `.env.example` to `.env` and updating the values. In addition to `OPENAI_API_KEY`, `JWT_SECRET` and `DATABASE_URL`, set the SMTP values used in `src/lib/email.ts` (`EMAIL_HOST`, `EMAIL_USER`, `EMAIL_PASS`) and Google OAuth (`GOOGLE_CLIENT_ID`, `NEXT_PUBLIC_GOOGLE_CLIENT_ID`). After modifying the schema run `npx prisma migrate dev` to apply the new migration for the verification fields.
 
 The application stores user data in a SQLite database using Prisma. After cloning
 the repo you can inspect the `client/prisma/schema.prisma` file which describes

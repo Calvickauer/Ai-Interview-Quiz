@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import prisma from '../../lib/db'
-import { sendEmail } from '../../lib/email'
+import prisma from '../../../lib/db'
+import { sendEmail } from '../../../lib/email'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secret'
 
