@@ -19,7 +19,7 @@ export default function LoginPage() {
     if (res.ok) {
       const data = await res.json()
       localStorage.setItem('token', data.token)
-      router.push('/dashboard')
+      router.push('/loading?next=/dashboard')
     } else {
       alert('Login failed')
     }

@@ -2,9 +2,10 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 
 export default function Navbar() {
+  const pathname = usePathname()
   const [loggedIn, setLoggedIn] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const [username, setUsername] = useState('')
@@ -12,6 +13,7 @@ export default function Navbar() {
   const router = useRouter()
 
   useEffect(() => {
+    if (pathname === '/loading') return
     const token = localStorage.getItem('token')
     const isLogged = !!token
     setLoggedIn(isLogged)
@@ -27,7 +29,9 @@ export default function Navbar() {
         })
         .catch(() => {})
     }
-  }, [])
+  }, [pathname])
+
+  if (pathname === '/loading') return null
 
   const handleSignOut = async () => {
     localStorage.removeItem('token')

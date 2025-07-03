@@ -21,7 +21,7 @@ export default function SignUpPage() {
     if (res.ok) {
       const data = await res.json()
       localStorage.setItem('token', data.token)
-      router.push('/profile')
+      router.push('/loading?next=/profile')
     } else {
       alert('Signup failed')
     }
