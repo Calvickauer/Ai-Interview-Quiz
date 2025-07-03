@@ -78,6 +78,12 @@ export default async function handler(
     console.log('Raw AI response:', raw)
     const questions = JSON.parse(raw)
     console.log('Parsed questions:', questions)
+    const shuffle = (arr: any[]) => {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[arr[i], arr[j]] = [arr[j], arr[i]]
+      }
+    }
     const prompts = Array.isArray(questions) ? questions : []
 
     const session = await prisma.session.create({
@@ -88,12 +94,16 @@ export default async function handler(
         totalQuestions: prompts.length,
         correctCount: 0,
         questions: {
-          create: prompts.map((p: any) => ({
-            prompt: p.prompt || p,
-            hint: p.hint || '',
-            modelAnswer: p.answer || '',
-            options: p.options ? JSON.stringify(p.options) : null,
-          })),
+          create: prompts.map((p: any) => {
+            const opts = p.options ? [...p.options] : null
+            if (opts) shuffle(opts)
+            return {
+              prompt: p.prompt || p,
+              hint: p.hint || '',
+              modelAnswer: p.answer || '',
+              options: opts ? JSON.stringify(opts) : null,
+            }
+          }),
         },
       },
     })

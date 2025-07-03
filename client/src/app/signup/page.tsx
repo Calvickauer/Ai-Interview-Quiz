@@ -12,6 +12,7 @@ export default function SignUpPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log('Submitting signup', { email, username })
     const res = await fetch('/api/auth', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -20,7 +21,7 @@ export default function SignUpPage() {
     if (res.ok) {
       const data = await res.json()
       localStorage.setItem('token', data.token)
-      router.push('/dashboard')
+      router.push('/profile')
     } else {
       alert('Signup failed')
     }
