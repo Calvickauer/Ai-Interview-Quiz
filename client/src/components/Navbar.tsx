@@ -127,7 +127,7 @@ export default function Navbar() {
               Login
             </Link>
             <Link href="/signup" onClick={() => setMenuOpen(false)}>
-              Sign Up
+              Signup
             </Link>
             <Link href="/quiz" onClick={() => setMenuOpen(false)}>
               Quiz
