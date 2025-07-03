@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import Loader from '../../../../components/Loader'
 import styles from './page.module.css'
 
 interface Question {
@@ -22,19 +23,30 @@ export default function QuizSummaryPage() {
   const router = useRouter()
   const [data, setData] = useState<SessionData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [actionLoading, setActionLoading] = useState(false)
 
   const handleRetake = async () => {
-    const res = await fetch(`/api/session/${id}/reset`, { method: 'POST' })
-    if (res.ok) {
-      router.push(`/quiz/session/${id}`)
+    setActionLoading(true)
+    try {
+      const res = await fetch(`/api/session/${id}/reset`, { method: 'POST' })
+      if (res.ok) {
+        router.push(`/quiz/session/${id}`)
+      }
+    } finally {
+      setActionLoading(false)
     }
   }
 
   const handleNew = async () => {
-    const res = await fetch(`/api/session/${id}/new`, { method: 'POST' })
-    if (res.ok) {
-      const data = await res.json()
-      router.push(`/quiz/session/${data.sessionId}`)
+    setActionLoading(true)
+    try {
+      const res = await fetch(`/api/session/${id}/new`, { method: 'POST' })
+      if (res.ok) {
+        const data = await res.json()
+        router.push(`/quiz/session/${data.sessionId}`)
+      }
+    } finally {
+      setActionLoading(false)
     }
   }
 
@@ -87,17 +99,25 @@ export default function QuizSummaryPage() {
       <div className="flex gap-2 mt-4">
         <button
           onClick={handleRetake}
-          className="bg-blue-500 text-white px-3 py-1"
+          disabled={actionLoading}
+          className="bg-blue-500 text-white px-3 py-1 disabled:opacity-50"
         >
           Retake Quiz
         </button>
         <button
           onClick={handleNew}
-          className="bg-green-500 text-white px-3 py-1"
+          disabled={actionLoading}
+          className="bg-green-500 text-white px-3 py-1 disabled:opacity-50"
         >
           New Questions
         </button>
       </div>
+      {actionLoading && (
+        <div className="flex flex-col items-center mt-4" data-testid="action-loading">
+          <Loader />
+          <p className="mt-2">Loading...</p>
+        </div>
+      )}
     </main>
   )
 }

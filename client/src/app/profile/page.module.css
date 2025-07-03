@@ -1,3 +1,7 @@
 .main {
-  @apply flex flex-grow items-center justify-center p-4;
+  @apply flex flex-col flex-grow items-center p-4 gap-6;
+}
+
+.section {
+  @apply w-full max-w-md text-center mt-6;
 }

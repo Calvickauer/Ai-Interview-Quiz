@@ -71,7 +71,7 @@ export default function ProfilePage() {
   return (
     <main className={styles.main}>
       {editing ? (
-        <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
+        <form onSubmit={handleSubmit} className="space-y-4 text-center" encType="multipart/form-data">
           <h1 className="text-2xl font-bold">Edit Profile</h1>
           {avatarUrl && (
             <img src={avatarUrl} alt="avatar" className="h-24 w-24 rounded-full" />
@@ -111,14 +111,16 @@ export default function ProfilePage() {
           {avatarUrl && (
             <img src={avatarUrl} alt="avatar" className="h-24 w-24 rounded-full mx-auto" />
           )}
-          <h1 className="text-2xl font-bold">{username}</h1>
+          <h1 className="text-2xl font-semibold">{username}</h1>
           <p>{bio}</p>
-          <button className="bg-blue-500 text-white px-4 py-2" onClick={() => setEditing(true)}>Edit Profile</button>
+          <button className="bg-blue-500 text-white px-4 py-2" onClick={() => setEditing(true)}>
+            Edit Profile
+          </button>
         </div>
       )}
         {sessions.length > 0 && (
-          <section className="mt-8 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-2">Open Quizzes</h2>
+          <section className={styles.section}>
+            <h2 className="text-xl font-semibold mb-2">Open Quizzes</h2>
             <ul className="space-y-1 mb-4">
               {sessions
                 .filter((s) => s.correctCount < s.totalQuestions)
@@ -130,7 +132,7 @@ export default function ProfilePage() {
                   </li>
                 ))}
             </ul>
-            <h2 className="text-xl font-bold mb-2">Finished Quizzes</h2>
+            <h2 className="text-xl font-semibold mb-2">Finished Quizzes</h2>
             <ul className="space-y-1">
               {sessions
                 .filter((s) => s.correctCount === s.totalQuestions)
