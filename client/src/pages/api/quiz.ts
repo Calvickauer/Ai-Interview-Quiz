@@ -15,6 +15,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log(`[API] ${req.method} ${req.url}`)
   const {
     role,
     techStack,
@@ -72,9 +73,12 @@ export default async function handler(
       ],
     })
 
-    const raw = completion.choices[0].message?.content || '[]'
-    const parsed = JSON.parse(raw)
-    const prompts = Array.isArray(parsed) ? parsed : []
+    let raw = completion.choices[0].message?.content || '[]'
+    raw = raw.replace(/```[a-z]*\n?/, '').replace(/```/g, '').trim()
+    console.log('Raw AI response:', raw)
+    const questions = JSON.parse(raw)
+    console.log('Parsed questions:', questions)
+    const prompts = Array.isArray(questions) ? questions : []
 
     const session = await prisma.session.create({
       data: {

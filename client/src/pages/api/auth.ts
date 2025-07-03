@@ -6,6 +6,7 @@ import prisma from '../../lib/db'
 const JWT_SECRET = process.env.JWT_SECRET || 'secret'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  console.log(`[API] ${req.method} ${req.url}`)
   switch (req.method) {
     case 'POST':
       const { action, email, password, username } = req.body
