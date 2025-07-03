@@ -9,6 +9,7 @@ interface Question {
   prompt: string
   hint: string
   modelAnswer: string
+  options?: string[]
 }
 
 export default function QuizSessionPage() {
@@ -26,12 +27,21 @@ export default function QuizSessionPage() {
   const [showAnswer, setShowAnswer] = useState(false)
 
   useEffect(() => {
+    setShowHint(false)
+    setShowAnswer(false)
+  }, [index])
+
+  useEffect(() => {
     const fetchSession = async () => {
       try {
         const res = await fetch(`/api/session/${id}`)
         if (res.ok) {
           const data = await res.json()
-          setQuestions(data.questions)
+          const qs = data.questions.map((q: any) => ({
+            ...q,
+            options: q.options ? JSON.parse(q.options) : undefined,
+          }))
+          setQuestions(qs)
         } else {
           router.replace('/quiz')
         }
@@ -106,30 +116,46 @@ export default function QuizSessionPage() {
         {showHint && <p className="mt-2 italic">Hint: {current.hint}</p>}
         {showAnswer && <p className="mt-2">Answer: {current.modelAnswer}</p>}
       </div>
-      <textarea
-        className="border p-2 w-full max-w-lg mt-4"
-        value={answers[current.id] || ''}
-        onChange={(e) =>
-          setAnswers((a) => ({ ...a, [current.id]: e.target.value }))
-        }
-      />
+      {current.options ? (
+        <div className="flex flex-col gap-2 mt-4 w-full max-w-lg">
+          {current.options.map((opt, i) => (
+            <label key={i} className="flex items-center gap-2">
+              <input
+                type="radio"
+                name={`q-${current.id}`}
+                checked={answers[current.id] === opt}
+                onChange={() =>
+                  setAnswers((a) => ({ ...a, [current.id]: opt }))
+                }
+              />
+              {opt}
+            </label>
+          ))}
+        </div>
+      ) : (
+        <textarea
+          className="border p-2 w-full max-w-lg mt-4"
+          value={answers[current.id] || ''}
+          onChange={(e) =>
+            setAnswers((a) => ({ ...a, [current.id]: e.target.value }))
+          }
+        />
+      )}
       <div className="flex flex-col gap-2 mt-2 w-full max-w-lg">
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={showHint}
-            onChange={(e) => setShowHint(e.target.checked)}
-          />
-          Show Hint
-        </label>
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={showAnswer}
-            onChange={(e) => setShowAnswer(e.target.checked)}
-          />
-          Reveal Answer
-        </label>
+        <button
+          type="button"
+          onClick={() => setShowHint((h) => !h)}
+          className="px-3 py-1 bg-gray-200 rounded"
+        >
+          {showHint ? 'Hide Hint' : 'Show Hint'}
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowAnswer((a) => !a)}
+          className="px-3 py-1 bg-gray-200 rounded"
+        >
+          {showAnswer ? 'Hide Answer' : 'Reveal Answer'}
+        </button>
         <label className="flex items-center gap-2">
           <input
             type="checkbox"

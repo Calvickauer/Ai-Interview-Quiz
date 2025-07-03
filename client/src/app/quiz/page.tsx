@@ -10,6 +10,7 @@ export default function QuizStartPage() {
   const [technology, setTechnology] = useState('')
   const [listingDescription, setListingDescription] = useState('')
   const [jobDescriptionUrl, setJobDescriptionUrl] = useState('')
+  const [multipleChoice, setMultipleChoice] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
@@ -44,6 +45,7 @@ export default function QuizStartPage() {
         technology,
         listingDescription,
         jobDescriptionUrl,
+        multipleChoice,
       }),
     })
     setLoading(false)
@@ -95,6 +97,14 @@ export default function QuizStartPage() {
           value={jobDescriptionUrl}
           onChange={(e) => setJobDescriptionUrl(e.target.value)}
         />
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={multipleChoice}
+            onChange={(e) => setMultipleChoice(e.target.checked)}
+          />
+          Multiple Choice (6 options)
+        </label>
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 w-full">
           Generate Quiz
         </button>

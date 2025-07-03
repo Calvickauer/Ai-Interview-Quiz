@@ -8,6 +8,7 @@ interface QuizRequest {
   technology?: string
   listingDescription?: string
   jobDescriptionUrl?: string
+  multipleChoice?: boolean
 }
 
 export default async function handler(
@@ -20,6 +21,7 @@ export default async function handler(
     technology,
     listingDescription,
     jobDescriptionUrl,
+    multipleChoice = false,
   } = req.body as QuizRequest
 
   if (
@@ -56,7 +58,10 @@ export default async function handler(
     (techStack ? `Tech Stack: ${techStack}.\n` : '') +
     (technology ? `Technologies: ${technology}.\n` : '') +
     (listingDescription ? `Listing Description: ${listingDescription}.\n` : '') +
-    (jobDescription ? `Job Description: ${jobDescription.slice(0, 1000)}\n` : '')
+    (jobDescription ? `Job Description: ${jobDescription.slice(0, 1000)}\n` : '') +
+    (multipleChoice
+      ? '\nReturn JSON array where each item has "prompt", "hint", "answer", and "options" (an array of 6 strings with the first option as the correct answer).'
+      : '\nReturn JSON array where each item has "prompt", "hint", and "answer".')
 
   try {
     const completion = await openai.chat.completions.create({
@@ -67,20 +72,24 @@ export default async function handler(
       ],
     })
 
-    const raw = completion.choices[0].message?.content || ''
-    const prompts = raw
-      .split(/\n+/)
-      .map((l) => l.replace(/^\d+\.\s*/, '').trim())
-      .filter(Boolean)
+    const raw = completion.choices[0].message?.content || '[]'
+    const parsed = JSON.parse(raw)
+    const prompts = Array.isArray(parsed) ? parsed : []
 
     const session = await prisma.session.create({
       data: {
         userId,
         role: role || 'developer',
+        multipleChoice,
         totalQuestions: prompts.length,
         correctCount: 0,
         questions: {
-          create: prompts.map((p) => ({ prompt: p, hint: '', modelAnswer: '' })),
+          create: prompts.map((p: any) => ({
+            prompt: p.prompt || p,
+            hint: p.hint || '',
+            modelAnswer: p.answer || '',
+            options: p.options ? JSON.stringify(p.options) : null,
+          })),
         },
       },
     })
