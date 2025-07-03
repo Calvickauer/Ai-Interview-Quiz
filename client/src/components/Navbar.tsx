@@ -37,14 +37,17 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="bg-gray-800 text-white p-4 flex flex-col sm:flex-row items-center sm:justify-between gap-2">
-      <div className="w-full flex justify-between items-center">
-        <div className="text-lg font-bold">AI Quizzer</div>
-        <button
-          className="sm:hidden p-2"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle navigation"
-        >
+    <nav className="bg-gray-800 text-white">
+      <div className="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div className="w-full flex justify-between items-center">
+          <Link href="/" className="text-lg font-bold" onClick={() => setMenuOpen(false)}>
+            AI Quizzer
+          </Link>
+          <button
+            className="sm:hidden p-2"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle navigation"
+          >
           {menuOpen ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +83,7 @@ export default function Navbar() {
       <div
         className={`${
           menuOpen ? 'flex' : 'hidden'
-        } flex-col sm:flex sm:flex-row gap-4 items-center w-full sm:w-auto`}
+        } w-full flex-col sm:flex-row sm:flex items-center gap-4 sm:w-auto`}
       >
         <Link href="/" onClick={() => setMenuOpen(false)}>
           Home
@@ -93,10 +96,18 @@ export default function Navbar() {
             <Link href="/quiz" onClick={() => setMenuOpen(false)}>
               Quiz
             </Link>
-            {avatarUrl && (
-              <img src={avatarUrl} alt="avatar" className="h-8 w-8 rounded-full" />
+            {(avatarUrl || username) && (
+              <Link
+                href="/profile"
+                className="flex items-center gap-1"
+                onClick={() => setMenuOpen(false)}
+              >
+                {avatarUrl && (
+                  <img src={avatarUrl} alt="avatar" className="h-8 w-8 rounded-full" />
+                )}
+                {username && <span>{username}</span>}
+              </Link>
             )}
-            {username && <span className="ml-1">{username}</span>}
             <button
               onClick={() => {
                 setMenuOpen(false)
@@ -119,6 +130,7 @@ export default function Navbar() {
             </Link>
           </>
         )}
+      </div>
       </div>
     </nav>
   )
