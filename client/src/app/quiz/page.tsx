@@ -32,6 +32,7 @@ export default function QuizStartPage() {
     const token = localStorage.getItem('token')
     const userId = token ? JSON.parse(atob(token.split('.')[1])).id : ''
 
+    console.log('Generating quiz')
     setLoading(true)
     const res = await fetch('/api/quiz', {
       method: 'POST',
@@ -109,7 +110,17 @@ export default function QuizStartPage() {
           Generate Quiz
         </button>
       </form>
-      {loading && <p className="mt-4">Generating questions...</p>}
+      {loading && (
+        <div className="mt-4" data-testid="loading-gif">
+          <div
+            dangerouslySetInnerHTML={{
+              __html:
+                '<div class="tenor-gif-embed" data-postid="22865479" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/uh-stand-by-randy-marsh-south-park-s13e6-pinewood-derby-gif-22865479">Uh Stand By Randy Marsh Sticker</a>from <a href="https://tenor.com/search/uh+stand+by-stickers">Uh Stand By Stickers</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>',
+            }}
+          />
+          <p className="text-center">Generating questions...</p>
+        </div>
+      )}
       {error && <p className="mt-2 text-red-500">{error}</p>}
     </main>
   )
