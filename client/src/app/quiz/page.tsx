@@ -64,7 +64,7 @@ export default function QuizStartPage() {
   return (
     <main className={styles.main}>
       <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md">
-        <h1 className="text-2xl font-bold">Start Quiz</h1>
+        <h1 className="text-2xl font-bold">Create Quiz</h1>
         <label htmlFor="role" className="block">Role</label>
         <input
           id="role"
