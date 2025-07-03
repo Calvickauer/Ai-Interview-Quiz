@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../../lib/db'
 import { openai } from '../../../../lib/openai'
+import { enforceQuizQuota } from '../../../../lib/quota'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -14,6 +15,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const session = await prisma.session.findUnique({ where: { id } })
     if (!session) {
       return res.status(404).json({ error: 'Session not found' })
+    }
+
+    try {
+      await enforceQuizQuota(session.userId)
+    } catch (err) {
+      return res.status(403).json({ error: err.message })
     }
 
     const prompt = `Generate 5 interview questions for a ${session.role} role.\n` +

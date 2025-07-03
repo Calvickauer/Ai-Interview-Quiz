@@ -5,6 +5,11 @@ import Navbar from '../components/Navbar'
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        {process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID && (
+          <script src="https://accounts.google.com/gsi/client" async defer></script>
+        )}
+      </head>
       <body className="flex flex-col min-h-screen relative">
         <video
           autoPlay
