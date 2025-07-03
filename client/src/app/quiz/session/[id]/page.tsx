@@ -7,6 +7,8 @@ import styles from './page.module.css'
 interface Question {
   id: string
   prompt: string
+  hint: string
+  modelAnswer: string
 }
 
 export default function QuizSessionPage() {
@@ -20,6 +22,8 @@ export default function QuizSessionPage() {
   const [results, setResults] = useState<Record<string, { correct: boolean; explanation?: string }>>({})
   const [explain, setExplain] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [showHint, setShowHint] = useState(false)
+  const [showAnswer, setShowAnswer] = useState(false)
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -38,10 +42,21 @@ export default function QuizSessionPage() {
     fetchSession()
   }, [id, router])
 
+  useEffect(() => {
+    if (questions.length && Object.keys(results).length === questions.length) {
+      router.push(`/quiz/session/${id}/summary`)
+    }
+  }, [results, questions.length, router, id])
+
   if (loading) {
     return (
       <main className={styles.main}>
-        <p>Loading session...</p>
+        <div
+          dangerouslySetInnerHTML={{
+            __html:
+              '<div class="tenor-gif-embed" data-postid="22865479" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/uh-stand-by-randy-marsh-south-park-s13e6-pinewood-derby-gif-22865479">Uh Stand By Randy Marsh Sticker</a>from <a href="https://tenor.com/search/uh+stand+by-stickers">Uh Stand By Stickers</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>',
+          }}
+        />
       </main>
     )
   }
@@ -54,7 +69,10 @@ export default function QuizSessionPage() {
     )
   }
 
+  const correctCount = Object.values(results).filter((r) => r.correct).length
+  const incorrectCount = Object.values(results).filter((r) => !r.correct).length
   const current = questions[index]
+  const answered = !!results[current.id]
 
   const handleCheck = async () => {
     setSubmitting(true)
@@ -80,8 +98,13 @@ export default function QuizSessionPage() {
   }
   return (
     <main className={styles.main}>
-      <div className={styles.card}>
+      <p className="mb-2">Correct: {correctCount} | Incorrect: {incorrectCount}</p>
+      <div
+        className={`${styles.card} ${answered ? (results[current.id].correct ? 'border-green-500' : 'border-red-500') : ''}`}
+      >
         <p>{current.prompt}</p>
+        {showHint && <p className="mt-2 italic">Hint: {current.hint}</p>}
+        {showAnswer && <p className="mt-2">Answer: {current.modelAnswer}</p>}
       </div>
       <textarea
         className="border p-2 w-full max-w-lg mt-4"
@@ -90,14 +113,32 @@ export default function QuizSessionPage() {
           setAnswers((a) => ({ ...a, [current.id]: e.target.value }))
         }
       />
-      <label className="mt-2 flex items-center gap-2">
-        <input
-          type="checkbox"
-          checked={explain}
-          onChange={(e) => setExplain(e.target.checked)}
-        />
-        Request explanation
-      </label>
+      <div className="flex flex-col gap-2 mt-2 w-full max-w-lg">
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={showHint}
+            onChange={(e) => setShowHint(e.target.checked)}
+          />
+          Show Hint
+        </label>
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={showAnswer}
+            onChange={(e) => setShowAnswer(e.target.checked)}
+          />
+          Reveal Answer
+        </label>
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={explain}
+            onChange={(e) => setExplain(e.target.checked)}
+          />
+          Request explanation
+        </label>
+      </div>
       <button
         onClick={handleCheck}
         disabled={submitting}

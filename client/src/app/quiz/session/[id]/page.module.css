@@ -2,12 +2,24 @@
   @apply flex flex-col flex-grow items-center p-4;
 }
 .card {
-  @apply border p-4 w-full max-w-lg transition-all;
+  @apply border p-4 w-full max-w-lg transition-all bg-white rounded shadow;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 .buttons {
   @apply mt-4 space-x-4;
 }
 
 .feedback {
-  @apply mt-4 border p-4 w-full max-w-lg;
+  @apply mt-4 border p-4 w-full max-w-lg rounded;
 }
