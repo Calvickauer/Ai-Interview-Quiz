@@ -56,8 +56,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         correctCount: 0,
         questions: {
           create: prompts.map((p: any) => {
-            const opts = p.options ? [...p.options] : null
-            if (opts) shuffle(opts)
+            let opts = p.options ? [...p.options] : null
+            if (opts) {
+              // ensure the correct answer option contains the full answer text
+              if (p.answer) {
+                opts[0] = p.answer
+              }
+              shuffle(opts)
+            }
             return {
               prompt: p.prompt || p,
               hint: p.hint || '',

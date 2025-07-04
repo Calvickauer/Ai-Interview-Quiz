@@ -27,9 +27,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (question.options) {
+      const normalizedModel = question.modelAnswer.trim().toLowerCase()
+      const normalizedAnswer = answer.trim().toLowerCase()
       const correct =
-        question.modelAnswer.trim().toLowerCase() ===
-        answer.trim().toLowerCase()
+        normalizedModel === normalizedAnswer ||
+        normalizedModel.includes(normalizedAnswer)
 
       await prisma.question.update({
         where: { id: questionId },
