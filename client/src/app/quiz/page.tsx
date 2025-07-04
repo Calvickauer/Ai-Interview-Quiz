@@ -6,6 +6,11 @@ import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import styles from './page.module.css'
 import Loader from '../../components/Loader'
+import {
+  roleSuggestions,
+  techStackSuggestions,
+  technologySuggestions,
+} from '../../lib/predictions'
 
 export default function QuizStartPage() {
   const [role, setRole] = useState('')
@@ -18,18 +23,6 @@ export default function QuizStartPage() {
   const [error, setError] = useState('')
   const router = useRouter()
   const { data: session } = useSession()
-  const technologyOptions = [
-    'React',
-    'Angular',
-    'Vue',
-    'Node.js',
-    'Python',
-    'Docker',
-    'Kubernetes',
-    'GraphQL',
-    'AWS',
-    'TypeScript',
-  ]
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -78,30 +71,28 @@ export default function QuizStartPage() {
     <main className={styles.main}>
       <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md">
         <h1 className="text-2xl font-bold text-center">Create Quiz</h1>
-        <label htmlFor="role" className="block text-2xl">Role</label>
-        <input
+        <AutocompleteInput
           id="role"
-          type="text"
-          placeholder="e.g. Frontend Developer, QA Engineer (optional)"
-          className="border p-2 w-full"
+          label="Role"
+          placeholder="Role (optional)"
           value={role}
-          onChange={(e) => setRole(e.target.value)}
+          suggestions={roleSuggestions}
+          onChange={setRole}
         />
-        <label htmlFor="techStack" className="block text-2xl">Tech Stack</label>
-        <input
+        <AutocompleteInput
           id="techStack"
-          type="text"
-          placeholder="e.g. MERN, LAMP (optional)"
-          className="border p-2 w-full"
+          label="Tech Stack"
+          placeholder="Tech stack (optional)"
           value={techStack}
-          onChange={(e) => setTechStack(e.target.value)}
+          suggestions={techStackSuggestions}
+          onChange={setTechStack}
         />
         <AutocompleteInput
           id="technology"
           label="Technologies"
-          placeholder="e.g. React, Docker (optional)"
+          placeholder="Technologies (optional)"
           value={technology}
-          suggestions={technologyOptions}
+          suggestions={technologySuggestions}
           onChange={setTechnology}
         />
         <label htmlFor="listing" className="block text-2xl">Listing Description</label>
