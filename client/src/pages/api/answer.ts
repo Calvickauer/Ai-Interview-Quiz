@@ -42,6 +42,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
       }
 
+      if (explain) {
+        const explanationPrompt =
+          `You are an expert technical interviewer.\n` +
+          `Question: ${question.prompt}\n` +
+          `Candidate Answer: ${answer}\n` +
+          `Model Answer: ${question.modelAnswer}\n` +
+          `Respond in JSON with \"explanation\" describing why the candidate's answer ` +
+          (correct ? 'is correct.' : 'is incorrect.')
+
+        const completion = await openai.chat.completions.create({
+          model: 'gpt-4o-mini',
+          response_format: { type: 'json_object' },
+          messages: [{ role: 'user', content: explanationPrompt }],
+        })
+
+        const parsed = JSON.parse(
+          completion.choices[0].message?.content || '{}'
+        )
+        return res.status(200).json({
+          correct,
+          explanation: parsed.explanation,
+        })
+      }
+
       return res.status(200).json({ correct })
     }
 
