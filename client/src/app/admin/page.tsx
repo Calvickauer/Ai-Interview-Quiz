@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import styles from '../profile/page.module.css'
 
 interface User {
@@ -13,16 +14,16 @@ interface User {
 export default function AdminPage() {
   const [users, setUsers] = useState<User[]>([])
   const router = useRouter()
+  const { data: session, status } = useSession()
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token) { router.push('/login'); return }
-    const userId = JSON.parse(atob(token.split('.')[1])).id
-    fetch('/api/admin/users', { headers: { 'x-user-id': userId } })
-      .then((r) => r.ok ? r.json() : Promise.reject())
+    if (status === 'loading') return
+    if (!session) { router.push('/login'); return }
+    fetch('/api/admin/users')
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data) => setUsers(data.users))
       .catch(() => router.replace('/'))
-  }, [router])
+  }, [router, session, status])
 
   return (
     <main className={styles.main}>

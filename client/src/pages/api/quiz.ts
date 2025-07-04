@@ -2,6 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { openai } from '../../lib/openai'
 import prisma from '../../lib/db'
 import { enforceQuizQuota } from '../../lib/quota'
+import { getServerSession } from 'next-auth/next'
+import { authOptions } from './auth/[...nextauth]'
 
 interface QuizRequest {
   role?: string
@@ -36,9 +38,10 @@ export default async function handler(
     return res.status(400).json({ error: 'No quiz parameters provided' })
   }
 
-  const userId = req.headers['x-user-id'] as string | undefined
+  const session = await getServerSession(req, res, authOptions)
+  const userId = session?.user?.id as string | undefined
   if (!userId) {
-    return res.status(401).json({ error: 'Missing user id' })
+    return res.status(401).json({ error: 'Unauthorized' })
   }
 
   try {

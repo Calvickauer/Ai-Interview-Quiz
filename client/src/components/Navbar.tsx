@@ -1,45 +1,22 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
+import { signOut, useSession } from 'next-auth/react'
 
 export default function Navbar() {
   const pathname = usePathname()
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
-  const [username, setUsername] = useState('')
-  const [role, setRole] = useState('user')
   const [menuOpen, setMenuOpen] = useState(false)
   const router = useRouter()
-
-  useEffect(() => {
-    if (pathname === '/loading') return
-    const token = localStorage.getItem('token')
-    const isLogged = !!token
-    setLoggedIn(isLogged)
-    if (isLogged) {
-      const id = JSON.parse(atob(token!.split('.')[1])).id
-      fetch('/api/user/profile', { headers: { 'x-user-id': id } })
-        .then((r) => (r.ok ? r.json() : null))
-        .then((data) => {
-          if (data) {
-            setAvatarUrl(data.avatarUrl || null)
-            setUsername(data.username || '')
-            if (data.role) setRole(data.role)
-          }
-        })
-        .catch(() => {})
-    }
-  }, [pathname])
-
-  if (pathname === '/loading') return null
+  const { data: session } = useSession()
+  const loggedIn = !!session
+  const avatarUrl = session?.user?.image || null
+  const username = session?.user?.name || ''
+  const role = (session as any)?.user?.role || 'user'
 
   const handleSignOut = async () => {
-    localStorage.removeItem('token')
-    await fetch('/api/auth', { method: 'DELETE' })
-    setLoggedIn(false)
-    router.push('/login')
+    await signOut({ callbackUrl: '/login' })
   }
 
   return (

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
 import styles from './page.module.css'
 
 export default function LoginPage() {
@@ -11,17 +12,15 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const res = await fetch('/api/auth', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'login', email, password }),
+    const res = await signIn('credentials', {
+      redirect: false,
+      email,
+      password,
     })
-    if (res.ok) {
-      const data = await res.json()
-      localStorage.setItem('token', data.token)
-      router.push('/loading?next=/dashboard')
-    } else {
+    if (res?.error) {
       alert('Login failed')
+    } else {
+      router.push('/dashboard')
     }
   }
 
@@ -49,6 +48,13 @@ export default function LoginPage() {
         />
         <button type="submit" className="bg-blue-500 text-white px-4 py-2">
           Login
+        </button>
+        <button
+          type="button"
+          className="bg-red-500 text-white px-4 py-2 w-full"
+          onClick={() => signIn('google')}
+        >
+          Sign in with Google
         </button>
       </form>
     </main>

@@ -4,6 +4,9 @@ import ProfilePage from '../page'
 jest.mock('next/navigation', () => ({
   useRouter: () => ({ push: jest.fn() })
 }))
+jest.mock('next-auth/react', () => ({
+  useSession: () => ({ data: null, status: 'loading' })
+}))
 
 global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({}) })) as any
 

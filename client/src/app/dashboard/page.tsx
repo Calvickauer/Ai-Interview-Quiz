@@ -2,17 +2,19 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import styles from './page.module.css'
 
 export default function DashboardPage() {
   const router = useRouter()
+  const { data: session, status } = useSession()
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token) {
+    if (status === 'loading') return
+    if (!session) {
       router.replace('/login')
     }
-  }, [router])
+  }, [router, session, status])
 
   return (
     <main className={styles.main}>
