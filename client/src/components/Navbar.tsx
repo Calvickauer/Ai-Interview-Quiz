@@ -68,9 +68,6 @@ export default function Navbar() {
           menuOpen ? 'flex' : 'hidden'
         } w-full flex-col sm:flex-row sm:flex items-center gap-12 sm:w-auto`}
       >
-        <Link href="/" onClick={() => setMenuOpen(false)}>
-          Home
-        </Link>
         {loggedIn ? (
           <>
             <Link href="/quiz" onClick={() => setMenuOpen(false)}>
@@ -87,7 +84,7 @@ export default function Navbar() {
             {(avatarUrl || username) && (
               <Link
                 href="/profile"
-                className="flex items-center gap-1"
+                className="flex items-center gap-5"
                 onClick={() => setMenuOpen(false)}
               >
                 {avatarUrl && (

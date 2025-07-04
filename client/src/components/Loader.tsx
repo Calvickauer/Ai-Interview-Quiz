@@ -6,7 +6,7 @@ export default function Loader() {
     <Lottie
       animationData={atomAnimation}
       loop
-      className="w-16 h-16 m-4"
+      className="w-24 h-24 m-4 mx-auto"
       data-testid="lottie-loader"
     />
   );
