@@ -28,16 +28,8 @@ export default function QuizStartPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    if (
-      !role &&
-      !techStack &&
-      !technology &&
-      !listingDescription &&
-      !jobDescriptionUrl
-    ) {
-      setError('Please provide at least one field to generate questions.')
-      return
-    }
+    // Allow generating a quiz even if only the proficiency is selected
+    // so users can try generic questions by difficulty alone
 
     const userId = session?.user?.id || ''
 

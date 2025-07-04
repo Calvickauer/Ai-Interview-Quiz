@@ -30,15 +30,8 @@ export default async function handler(
     proficiency = 'Medium',
   } = req.body as QuizRequest
 
-  if (
-    !role &&
-    !techStack &&
-    !technology &&
-    !listingDescription &&
-    !jobDescriptionUrl
-  ) {
-    return res.status(400).json({ error: 'No quiz parameters provided' })
-  }
+  // Previously at least one topic field was required. Allow empty fields so the
+  // quiz can be generated using only the selected proficiency level.
 
   const session = await getServerSession(req, res, authOptions)
   const userId = session?.user?.id as string | undefined
