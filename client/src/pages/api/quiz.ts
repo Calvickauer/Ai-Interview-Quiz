@@ -12,6 +12,7 @@ interface QuizRequest {
   listingDescription?: string
   jobDescriptionUrl?: string
   multipleChoice?: boolean
+  proficiency?: string
 }
 
 export default async function handler(
@@ -26,6 +27,7 @@ export default async function handler(
     listingDescription,
     jobDescriptionUrl,
     multipleChoice = false,
+    proficiency = 'Medium',
   } = req.body as QuizRequest
 
   if (
@@ -70,6 +72,7 @@ export default async function handler(
     (technology ? `Technologies: ${technology}.\n` : '') +
     (listingDescription ? `Listing Description: ${listingDescription}.\n` : '') +
     (jobDescription ? `Job Description: ${jobDescription.slice(0, 1000)}\n` : '') +
+    `Difficulty: ${proficiency}.\n` +
     (multipleChoice
       ? '\nReturn JSON array where each item has "prompt", "hint", "answer", and "options" (an array of 6 strings with the first option as the correct answer).'
       : '\nReturn JSON array where each item has "prompt", "hint", and "answer".')
@@ -100,6 +103,7 @@ export default async function handler(
       data: {
         userId,
         role: role || 'developer',
+        proficiency,
         multipleChoice,
         totalQuestions: prompts.length,
         correctCount: 0,

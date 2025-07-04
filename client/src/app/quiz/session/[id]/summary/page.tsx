@@ -15,6 +15,7 @@ interface SessionData {
   questions: Question[]
   correctCount: number
   totalQuestions: number
+  proficiency: string
 }
 
 export default function QuizSummaryPage() {
@@ -80,6 +81,7 @@ export default function QuizSummaryPage() {
   return (
     <main className={styles.main}>
       <h1 className="text-2xl font-bold mb-4">Quiz Summary</h1>
+      <p className="mb-2">Difficulty: {data.proficiency}</p>
       <p className="mb-4">
         Correct {data.correctCount} of {data.totalQuestions}
       </p>

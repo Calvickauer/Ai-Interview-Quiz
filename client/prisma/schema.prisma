@@ -25,6 +25,7 @@ model Session {
   userId         String
   user           User       @relation(fields: [userId], references: [id])
   role           String
+  proficiency    String    @default("Medium")
   multipleChoice Boolean   @default(false)
   totalQuestions Int
   correctCount   Int

@@ -19,6 +19,7 @@ export default function QuizStartPage() {
   const [listingDescription, setListingDescription] = useState('')
   const [jobDescriptionUrl, setJobDescriptionUrl] = useState('')
   const [multipleChoice, setMultipleChoice] = useState(false)
+  const [proficiency, setProficiency] = useState('Medium')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
@@ -54,6 +55,7 @@ export default function QuizStartPage() {
         listingDescription,
         jobDescriptionUrl,
         multipleChoice,
+        proficiency,
       }),
     })
     setLoading(false)
@@ -112,6 +114,17 @@ export default function QuizStartPage() {
           value={jobDescriptionUrl}
           onChange={(e) => setJobDescriptionUrl(e.target.value)}
         />
+        <label htmlFor="proficiency" className="block text-2xl">Proficiency</label>
+        <select
+          id="proficiency"
+          className="border p-2 w-full"
+          value={proficiency}
+          onChange={(e) => setProficiency(e.target.value)}
+        >
+          <option value="Beginner">Beginner</option>
+          <option value="Medium">Medium</option>
+          <option value="Advanced">Advanced</option>
+        </select>
         <label className="flex items-center gap-2">
           <input
             type="checkbox"

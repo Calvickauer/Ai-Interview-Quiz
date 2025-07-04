@@ -23,7 +23,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(403).json({ error: err.message })
     }
 
-    const prompt = `Generate 5 interview questions for a ${session.role} role.\n` +
+    const prompt =
+      `Generate 5 interview questions for a ${session.role} role.\n` +
+      `Difficulty: ${session.proficiency}.\n` +
       (session.multipleChoice
         ? '\nReturn JSON array where each item has "prompt", "hint", "answer", and "options" (an array of 6 strings with the first option as the correct answer).'
         : '\nReturn JSON array where each item has "prompt", "hint", and "answer".')
@@ -51,6 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       data: {
         userId: session.userId,
         role: session.role,
+        proficiency: session.proficiency,
         multipleChoice: session.multipleChoice,
         totalQuestions: prompts.length,
         correctCount: 0,
