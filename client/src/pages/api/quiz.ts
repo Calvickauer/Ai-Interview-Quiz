@@ -105,8 +105,15 @@ export default async function handler(
         correctCount: 0,
         questions: {
           create: prompts.map((p: any) => {
-            const opts = p.options ? [...p.options] : null
-            if (opts) shuffle(opts)
+            let opts = p.options ? [...p.options] : null
+            if (opts) {
+              // ensure the full answer is selectable by replacing the first
+              // option with the answer text before shuffling
+              if (p.answer) {
+                opts[0] = p.answer
+              }
+              shuffle(opts)
+            }
             return {
               prompt: p.prompt || p,
               hint: p.hint || '',
