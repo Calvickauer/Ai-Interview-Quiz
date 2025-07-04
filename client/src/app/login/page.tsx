@@ -26,7 +26,7 @@ export default function LoginPage() {
 
   return (
     <main className={styles.main}>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md mx-auto text-center">
         <h1 className="text-2xl font-bold">Login</h1>
         <label htmlFor="email" className="block">Email</label>
         <input
@@ -46,16 +46,18 @@ export default function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2">
-          Login
-        </button>
-        <button
-          type="button"
-          className="bg-red-500 text-white px-4 py-2 w-full"
-          onClick={() => signIn('google')}
-        >
-          Sign in with Google
-        </button>
+        <div className="flex justify-center gap-2">
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2">
+            Login
+          </button>
+          <button
+            type="button"
+            className="bg-red-500 text-white px-4 py-2"
+            onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+          >
+            Sign in with Google
+          </button>
+        </div>
       </form>
     </main>
   )
