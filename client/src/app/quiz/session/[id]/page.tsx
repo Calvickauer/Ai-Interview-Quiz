@@ -11,6 +11,7 @@ interface Question {
   hint: string
   modelAnswer: string
   options?: string[]
+  userCorrect?: boolean | null
 }
 
 export default function QuizSessionPage() {
@@ -43,6 +44,19 @@ export default function QuizSessionPage() {
             options: q.options ? JSON.parse(q.options) : undefined,
           }))
           setQuestions(qs)
+
+          const initialResults: Record<string, { correct: boolean }> = {}
+          qs.forEach((q: any) => {
+            if (typeof q.userCorrect === 'boolean') {
+              initialResults[q.id] = { correct: q.userCorrect }
+            }
+          })
+          setResults(initialResults)
+
+          const firstUnanswered = qs.findIndex(
+            (q: any) => q.userCorrect === null || q.userCorrect === undefined
+          )
+          if (firstUnanswered !== -1) setIndex(firstUnanswered)
         } else {
           router.replace('/quiz')
         }
