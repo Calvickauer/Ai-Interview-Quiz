@@ -26,7 +26,7 @@ an avatar and short bio.
    npm run lint
    npm test
    ```
-5. Configure environment variables for the Next.js app by copying `client/.env.example` to `client/.env.local` and filling in the values. In addition to `OPENAI_API_KEY`, `JWT_SECRET` and `DATABASE_URL`, set the SMTP values used in `src/lib/email.ts` (`EMAIL_HOST`, `EMAIL_USER`, `EMAIL_PASS`) and Google OAuth (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`). After modifying the schema run `npx prisma migrate dev` to apply the new migration for the verification fields.
+5. Configure environment variables for the Next.js app by copying `client/.env.example` to `client/.env.local` and filling in the values. In addition to `OPENAI_API_KEY`, `JWT_SECRET` and `DATABASE_URL`, set the SMTP values used in `src/lib/email.ts` (`EMAIL_HOST`, `EMAIL_USER`, `EMAIL_PASS`), Google OAuth (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`) and Typesense search (`NEXT_PUBLIC_TYPESENSE_HOST`, `NEXT_PUBLIC_TYPESENSE_PORT`, `NEXT_PUBLIC_TYPESENSE_PROTOCOL`, `NEXT_PUBLIC_TYPESENSE_SEARCH_KEY`). After modifying the schema run `npx prisma migrate dev` to apply the new migration for the verification fields.
 
 The application stores user data in a SQLite database using Prisma. After cloning
 the repo you can inspect the `client/prisma/schema.prisma` file which describes
@@ -75,9 +75,13 @@ the database models. New fields can be added and migrations generated with
    vercel login
    ```
 3. Set the required environment variables in Vercel:
-   - `OPENAI_API_KEY`
-   - `JWT_SECRET`
-   - `DATABASE_URL` (e.g. `file:./dev.db` for the bundled SQLite database)
+  - `OPENAI_API_KEY`
+  - `JWT_SECRET`
+  - `DATABASE_URL` (e.g. `file:./dev.db` for the bundled SQLite database)
+  - `NEXT_PUBLIC_TYPESENSE_HOST`
+  - `NEXT_PUBLIC_TYPESENSE_PORT`
+  - `NEXT_PUBLIC_TYPESENSE_PROTOCOL`
+  - `NEXT_PUBLIC_TYPESENSE_SEARCH_KEY`
 4. Deploy from the repository root using the provided script:
    ```bash
    ./deploy.sh

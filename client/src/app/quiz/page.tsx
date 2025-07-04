@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import AutocompleteInput from '../../components/AutocompleteInput'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import styles from './page.module.css'
@@ -65,32 +66,29 @@ export default function QuizStartPage() {
     <main className={styles.main}>
       <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md">
         <h1 className="text-2xl font-bold text-center">Create Quiz</h1>
-        <label htmlFor="role" className="block text-2xl">Role</label>
-        <input
+        <AutocompleteInput
           id="role"
-          type="text"
+          label="Role"
           placeholder="e.g. Frontend Developer, QA Engineer (optional)"
-          className="border p-2 w-full"
           value={role}
-          onChange={(e) => setRole(e.target.value)}
+          collection="roles"
+          onChange={setRole}
         />
-        <label htmlFor="techStack" className="block text-2xl">Tech Stack</label>
-        <input
+        <AutocompleteInput
           id="techStack"
-          type="text"
+          label="Tech Stack"
           placeholder="e.g. MERN, LAMP (optional)"
-          className="border p-2 w-full"
           value={techStack}
-          onChange={(e) => setTechStack(e.target.value)}
+          collection="stacks"
+          onChange={setTechStack}
         />
-        <label htmlFor="technology" className="block text-2xl">Technologies</label>
-        <input
+        <AutocompleteInput
           id="technology"
-          type="text"
+          label="Technologies"
           placeholder="e.g. React, Docker (optional)"
-          className="border p-2 w-full"
           value={technology}
-          onChange={(e) => setTechnology(e.target.value)}
+          collection="technologies"
+          onChange={setTechnology}
         />
         <label htmlFor="listing" className="block text-2xl">Listing Description</label>
         <textarea
