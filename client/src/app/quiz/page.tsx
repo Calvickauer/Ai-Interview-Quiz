@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import AutocompleteInput from '../../components/AutocompleteInput'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import styles from './page.module.css'
@@ -17,6 +18,18 @@ export default function QuizStartPage() {
   const [error, setError] = useState('')
   const router = useRouter()
   const { data: session } = useSession()
+  const technologyOptions = [
+    'React',
+    'Angular',
+    'Vue',
+    'Node.js',
+    'Python',
+    'Docker',
+    'Kubernetes',
+    'GraphQL',
+    'AWS',
+    'TypeScript',
+  ]
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -83,14 +96,13 @@ export default function QuizStartPage() {
           value={techStack}
           onChange={(e) => setTechStack(e.target.value)}
         />
-        <label htmlFor="technology" className="block text-2xl">Technologies</label>
-        <input
+        <AutocompleteInput
           id="technology"
-          type="text"
+          label="Technologies"
           placeholder="e.g. React, Docker (optional)"
-          className="border p-2 w-full"
           value={technology}
-          onChange={(e) => setTechnology(e.target.value)}
+          suggestions={technologyOptions}
+          onChange={setTechnology}
         />
         <label htmlFor="listing" className="block text-2xl">Listing Description</label>
         <textarea
