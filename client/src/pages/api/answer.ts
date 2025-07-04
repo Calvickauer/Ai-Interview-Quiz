@@ -26,6 +26,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(404).json({ error: 'Question not found' })
     }
 
+    if (question.options) {
+      const correct =
+        question.modelAnswer.trim().toLowerCase() ===
+        answer.trim().toLowerCase()
+
+      await prisma.question.update({
+        where: { id: questionId },
+        data: { userCorrect: correct },
+      })
+      if (correct) {
+        await prisma.session.update({
+          where: { id: question.sessionId },
+          data: { correctCount: { increment: 1 } },
+        })
+      }
+
+      return res.status(200).json({ correct })
+    }
+
     const prompt = `You are an expert technical interviewer evaluating a candidate's answer.\\n` +
       `Question: ${question.prompt}\\n` +
       `Candidate Answer: ${answer}\\n` +
