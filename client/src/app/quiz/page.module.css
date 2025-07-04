@@ -1,3 +1,7 @@
 .main {
   @apply flex flex-col flex-grow items-center p-4 gap-4;
 }
+
+.robot {
+  font-family: 'Orbitron', sans-serif;
+}

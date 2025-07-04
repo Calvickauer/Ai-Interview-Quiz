@@ -71,7 +71,13 @@ export default function QuizStartPage() {
 
   return (
     <main className={styles.main}>
-      <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md">
+      {loading ? (
+        <div className="mt-10 flex flex-col items-center" data-testid="loading">
+          <p className={`text-2xl font-bold mb-4 ${styles.robot}`}>Terminator Processing RAW DATA</p>
+          <Loader />
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md">
         <h1 className="text-2xl font-bold text-center">Create Quiz</h1>
         <AutocompleteInput
           id="role"
@@ -137,13 +143,8 @@ export default function QuizStartPage() {
           Generate Quiz
         </button>
       </form>
-      {loading && (
-        <div className="mt-4 text-center" data-testid="loading">
-          <Loader />
-          <p className="mt-2">Generating questions...</p>
-        </div>
       )}
-      {error && <p className="mt-2 text-red-500">{error}</p>}
+      {error && !loading && <p className="mt-2 text-red-500">{error}</p>}
     </main>
   )
 }
