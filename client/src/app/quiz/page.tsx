@@ -30,6 +30,30 @@ export default function QuizStartPage() {
     'AWS',
     'TypeScript',
   ]
+  const roleOptions = [
+    'Frontend Developer',
+    'Backend Developer',
+    'Full Stack Developer',
+    'QA Engineer',
+    'DevOps Engineer',
+    'Data Scientist',
+    'Mobile Developer',
+    'Project Manager',
+    'Product Manager',
+    'UX Designer',
+  ]
+  const stackOptions = [
+    'MERN',
+    'MEAN',
+    'MEVN',
+    'LAMP',
+    'Django',
+    'Flask',
+    'Spring Boot',
+    'Ruby on Rails',
+    '.NET',
+    'Laravel',
+  ]
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -78,23 +102,21 @@ export default function QuizStartPage() {
     <main className={styles.main}>
       <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md">
         <h1 className="text-2xl font-bold text-center">Create Quiz</h1>
-        <label htmlFor="role" className="block text-2xl">Role</label>
-        <input
+        <AutocompleteInput
           id="role"
-          type="text"
+          label="Role"
           placeholder="e.g. Frontend Developer, QA Engineer (optional)"
-          className="border p-2 w-full"
           value={role}
-          onChange={(e) => setRole(e.target.value)}
+          suggestions={roleOptions}
+          onChange={setRole}
         />
-        <label htmlFor="techStack" className="block text-2xl">Tech Stack</label>
-        <input
+        <AutocompleteInput
           id="techStack"
-          type="text"
+          label="Tech Stack"
           placeholder="e.g. MERN, LAMP (optional)"
-          className="border p-2 w-full"
           value={techStack}
-          onChange={(e) => setTechStack(e.target.value)}
+          suggestions={stackOptions}
+          onChange={setTechStack}
         />
         <AutocompleteInput
           id="technology"
