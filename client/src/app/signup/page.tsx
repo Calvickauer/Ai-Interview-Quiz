@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
 import styles from './page.module.css'
-import GoogleSignIn from '../../components/GoogleSignIn'
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('')
@@ -13,14 +13,14 @@ export default function SignUpPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Submitting signup', { email, username })
-    const res = await fetch('/api/auth', {
+    const res = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'signup', email, password, username }),
+      body: JSON.stringify({ email, password, username }),
     })
     if (res.ok) {
-      router.push(`/signup/verify?email=${encodeURIComponent(email)}`)
+      await signIn('credentials', { redirect: false, email, password })
+      router.push('/profile')
     } else {
       alert('Signup failed')
     }
@@ -62,20 +62,13 @@ export default function SignUpPage() {
         </button>
       </form>
       <div className="mt-4">
-        <GoogleSignIn onSuccess={async (token) => {
-          const res = await fetch('/api/auth/google', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ token }),
-          })
-          if (res.ok) {
-            const data = await res.json()
-            localStorage.setItem('token', data.token)
-            router.push('/profile')
-          } else {
-            alert('Google sign-in failed')
-          }
-        }} />
+        <button
+          type="button"
+          className="bg-red-500 text-white px-4 py-2 w-full"
+          onClick={() => signIn('google')}
+        >
+          Sign up with Google
+        </button>
       </div>
     </main>
   )

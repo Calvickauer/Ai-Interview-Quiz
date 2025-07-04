@@ -3,12 +3,18 @@ import formidable from 'formidable'
 import { promises as fs } from 'fs'
 import path from 'path'
 import prisma from '../../../lib/db'
+import { getServerSession } from 'next-auth/next'
+import { authOptions } from '../auth/[...nextauth]'
 
 export const config = { api: { bodyParser: false } }
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log(`[API] ${req.method} ${req.url}`)
   if (req.method !== 'POST') return res.status(405).end()
+
+  const session = await getServerSession(req, res, authOptions)
+  const userId = session?.user?.id as string | undefined
+  if (!userId) return res.status(401).json({ error: 'Unauthorized' })
 
   const form = formidable({ multiples: false })
   form.parse(req, async (err, fields, files) => {
@@ -30,8 +36,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const fileName = `${Date.now()}_${Math.random().toString(16).slice(2)}${ext}`
       await fs.copyFile(file.filepath, path.join(uploadsDir, fileName))
 
-      const userId = req.headers['x-user-id'] as string | undefined
-      if (!userId) return res.status(401).json({ error: 'Missing user id' })
 
       const avatarUrl = `/uploads/${fileName}`
       console.log('Updating user:', { userId, username, bio, avatarUrl })

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import styles from './page.module.css'
 
@@ -13,27 +14,24 @@ export default function ProfilePage() {
   const [sessions, setSessions] = useState<any[]>([])
   const [editing, setEditing] = useState(false)
   const router = useRouter()
+  const { data: session, status } = useSession()
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token) {
+    if (status === 'loading') return
+    if (!session?.user) {
       router.push('/login')
       return
     }
-    const userId = JSON.parse(atob(token.split('.')[1])).id
-    fetch('/api/user/profile', {
-      headers: { 'x-user-id': userId },
-    })
-      .then((res) => res.ok ? res.json() : Promise.reject())
+    fetch('/api/user/profile')
+      .then((res) => (res.ok ? res.json() : Promise.reject()))
       .then((data) => {
-        console.log('Loaded profile', data)
         setUsername(data.username || '')
         setBio(data.bio || '')
         setAvatarUrl(data.avatarUrl || null)
         setSessions(data.sessions || [])
       })
       .catch((err) => console.error('Profile fetch error', err))
-  }, [router])
+  }, [router, session, status])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -46,13 +44,9 @@ export default function ProfilePage() {
     form.append('username', username)
     form.append('bio', bio)
 
-    const token = localStorage.getItem('token')
     console.log('Submitting profile', { username, bio })
     const res = await fetch('/api/user/update', {
       method: 'POST',
-      headers: {
-        'x-user-id': token ? JSON.parse(atob(token.split('.')[1])).id : ''
-      },
       body: form,
     })
 

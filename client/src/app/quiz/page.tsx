@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import styles from './page.module.css'
 import Loader from '../../components/Loader'
 
@@ -15,6 +16,7 @@ export default function QuizStartPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
+  const { data: session } = useSession()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -30,8 +32,7 @@ export default function QuizStartPage() {
       return
     }
 
-    const token = localStorage.getItem('token')
-    const userId = token ? JSON.parse(atob(token.split('.')[1])).id : ''
+    const userId = session?.user?.id || ''
 
     console.log('Generating quiz')
     setLoading(true)
@@ -39,7 +40,6 @@ export default function QuizStartPage() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-user-id': userId,
       },
       body: JSON.stringify({
         role,
