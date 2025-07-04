@@ -53,7 +53,10 @@ export default function LoginPage() {
           <button
             type="button"
             className="bg-red-500 text-white px-4 py-2"
-            onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+            onClick={() => {
+              console.log('login with google')
+              signIn('google', { callbackUrl: '/dashboard' })
+            }}
           >
             Sign in with Google
           </button>

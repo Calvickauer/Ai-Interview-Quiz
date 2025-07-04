@@ -24,12 +24,14 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      allowDangerousEmailAccountLinking: true,
     }),
   ],
   session: { strategy: 'jwt' },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ user, account }) {
+      console.log('[NEXTAUTH] signIn', { provider: account?.provider, email: user.email })
       if (account?.provider === 'google') {
         const email = user.email as string
         let dbUser = await prisma.user.findUnique({ where: { email } })
@@ -38,6 +40,9 @@ export const authOptions: NextAuthOptions = {
           dbUser = await prisma.user.create({
             data: { email, username: user.name || email, password: '', role, isVerified: true },
           })
+          console.log('[NEXTAUTH] created user for google sign in', dbUser)
+        } else {
+          console.log('[NEXTAUTH] found user for google sign in', dbUser)
         }
         user.id = dbUser.id
         ;(user as any).role = dbUser.role
