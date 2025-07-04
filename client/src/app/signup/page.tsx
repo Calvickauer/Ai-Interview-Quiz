@@ -28,7 +28,7 @@ export default function SignUpPage() {
 
   return (
     <main className={styles.main}>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md mx-auto text-center">
         <h1 className="text-2xl font-bold">Sign Up</h1>
         <label htmlFor="username" className="block">Username</label>
         <input
@@ -57,19 +57,19 @@ export default function SignUpPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2">
-          Sign Up
-        </button>
+        <div className="flex justify-center gap-2">
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2">
+            Sign Up
+          </button>
+          <button
+            type="button"
+            className="bg-red-500 text-white px-4 py-2"
+            onClick={() => signIn('google', { callbackUrl: '/profile' })}
+          >
+            Sign up with Google
+          </button>
+        </div>
       </form>
-      <div className="mt-4">
-        <button
-          type="button"
-          className="bg-red-500 text-white px-4 py-2 w-full"
-          onClick={() => signIn('google')}
-        >
-          Sign up with Google
-        </button>
-      </div>
     </main>
   )
 }
