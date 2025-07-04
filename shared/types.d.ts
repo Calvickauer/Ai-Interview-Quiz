@@ -12,6 +12,7 @@ export interface Session {
   id: string
   userId: string
   role: string
+  proficiency: string
   totalQuestions: number
   correctCount: number
   createdAt: Date
