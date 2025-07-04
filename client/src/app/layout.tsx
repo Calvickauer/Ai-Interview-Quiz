@@ -1,14 +1,14 @@
 import './globals.css'
 import type { ReactNode } from 'react'
 import Navbar from '../components/Navbar'
-import { SessionProvider } from 'next-auth/react'
+import Providers from '../components/Providers'
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head></head>
       <body className="flex flex-col min-h-screen relative">
-        <SessionProvider>
+        <Providers>
           <video
             autoPlay
             muted
@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               {children}
             </div>
           </div>
-        </SessionProvider>
+        </Providers>
       </body>
     </html>
   )
