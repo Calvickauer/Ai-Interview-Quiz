@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
@@ -68,7 +69,13 @@ export default function ProfilePage() {
         <form onSubmit={handleSubmit} className="space-y-4 text-center" encType="multipart/form-data">
           <h1 className="text-2xl font-bold">Edit Profile</h1>
           {avatarUrl && (
-            <img src={avatarUrl} alt="avatar" className="h-24 w-24 rounded-full" />
+            <Image
+              src={avatarUrl}
+              alt="avatar"
+              width={96}
+              height={96}
+              className="h-24 w-24 rounded-full"
+            />
           )}
           <label htmlFor="avatar" className="block">Avatar</label>
           <input
@@ -103,7 +110,13 @@ export default function ProfilePage() {
       ) : (
         <div className="space-y-4 text-center">
           {avatarUrl && (
-            <img src={avatarUrl} alt="avatar" className="h-24 w-24 rounded-full mx-auto border-4 border-blue-500" />
+            <Image
+              src={avatarUrl}
+              alt="avatar"
+              width={96}
+              height={96}
+              className="h-24 w-24 rounded-full mx-auto border-4 border-blue-500"
+            />
           )}
           <h1 className="text-2xl font-semibold">{username}</h1>
           <p>{bio}</p>
