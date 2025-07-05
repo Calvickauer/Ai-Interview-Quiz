@@ -78,10 +78,10 @@ export default function QuizStartPage() {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md">
-        <h1 className="text-2xl font-bold text-center">Create Quiz</h1>
+        <h1 className={'text-2xl font-bold text-center'}>Create Quiz</h1>
         <AutocompleteInput
           id="role"
-          label="Role"
+          label="Job"
           placeholder="Role (optional)"
           value={role}
           suggestions={roleSuggestions}
