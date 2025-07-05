@@ -4,6 +4,11 @@ const nextConfig = {
   experimental: {
     externalDir: true,
   },
-}
+  images: {
+    domains: [
+      'lh3.googleusercontent.com',  // ← add this
+    ],
+  },
+};
 
-export default nextConfig
+export default nextConfig;
