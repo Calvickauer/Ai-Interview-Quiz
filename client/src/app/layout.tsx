@@ -5,9 +5,12 @@ import Navbar from '../components/Navbar'
 import Providers from '../components/Providers'
 
 export const metadata: Metadata = {
-  title: 'AI Interview Prep Quizzer',
+  title: 'AI Quizzer',
   description:
     'Generate AI-powered interview quizzes tailored to your desired role or skillset.',
+  icons: {
+    icon: '/Favicon.png',
+  },
 }
 
 export const viewport = {
@@ -18,7 +21,9 @@ export const viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <head></head>
+      <head>
+        <link rel="icon" href="/Favicon.png" />
+      </head>
       <body className="flex flex-col min-h-screen relative">
         <Providers>
           <video
