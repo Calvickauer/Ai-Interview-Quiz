@@ -1,7 +1,19 @@
 import './globals.css'
 import type { ReactNode } from 'react'
+import type { Metadata } from 'next'
 import Navbar from '../components/Navbar'
 import Providers from '../components/Providers'
+
+export const metadata: Metadata = {
+  title: 'AI Interview Prep Quizzer',
+  description:
+    'Generate AI-powered interview quizzes tailored to your desired role or skillset.',
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

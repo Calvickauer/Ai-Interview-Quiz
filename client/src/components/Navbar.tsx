@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
@@ -88,7 +89,13 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
               >
                 {avatarUrl && (
-                  <img src={avatarUrl} alt="avatar" className="h-8 w-8 rounded-full" />
+                  <Image
+                    src={avatarUrl}
+                    alt="avatar"
+                    width={32}
+                    height={32}
+                    className="h-8 w-8 rounded-full"
+                  />
                 )}
                 {username && <span>{username}</span>}
               </Link>
