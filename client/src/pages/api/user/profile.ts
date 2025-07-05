@@ -14,7 +14,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      include: { sessions: true },
+      include: {
+        sessions: {
+          include: { questions: { select: { userCorrect: true } } },
+        },
+      },
     })
     if (!user) return res.status(404).json({ error: 'User not found' })
 
@@ -29,6 +33,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         multipleChoice: s.multipleChoice,
         totalQuestions: s.totalQuestions,
         correctCount: s.correctCount,
+        answeredCount: s.questions.filter(
+          (q) => q.userCorrect !== null && q.userCorrect !== undefined
+        ).length,
       })),
     })
   } catch (err) {

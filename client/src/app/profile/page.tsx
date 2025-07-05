@@ -130,7 +130,7 @@ export default function ProfilePage() {
             <h2 className="text-xl font-semibold mb-2">Open Quizzes</h2>
             <ul className="space-y-1 mb-4">
               {sessions
-                .filter((s) => s.correctCount < s.totalQuestions)
+                .filter((s) => s.answeredCount < s.totalQuestions)
                 .map((s) => (
                   <li key={s.id}>
                     <Link className="underline" href={`/quiz/session/${s.id}`}>{`
@@ -142,7 +142,7 @@ export default function ProfilePage() {
             <h2 className="text-xl font-semibold mb-2">Finished Quizzes</h2>
             <ul className="space-y-1">
               {sessions
-                .filter((s) => s.correctCount === s.totalQuestions)
+                .filter((s) => s.answeredCount === s.totalQuestions)
                 .map((s) => (
                   <li key={s.id}>
                     <Link className="underline" href={`/quiz/session/${s.id}/summary`}>{`
