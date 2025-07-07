@@ -74,7 +74,7 @@ export default async function handler(
     (jobDescription ? `Job Description: ${jobDescription.slice(0, 1000)}\n` : '') +
     `Difficulty: ${proficiency}.\n` +
     (multipleChoice
-      ? '\nReturn JSON array where each item has "prompt", "hint", "answer", and "options" (an array of 6 strings with the first option as the correct answer).'
+      ? '\nReturn JSON array where each item has "prompt", "hint", "answer", and "options" (an array of 6 strings with the first option as the correct answer). Ensure the options are similar in length and detail so the correct option is not obviously longer.'
       : '\nReturn JSON array where each item has "prompt", "hint", and "answer".')
 
   try {
@@ -111,10 +111,21 @@ export default async function handler(
           create: prompts.map((p: any) => {
             let opts = p.options ? [...p.options] : null
             if (opts) {
+              opts = opts.map((o: string) => o.trim())
               // ensure the full answer is selectable by replacing the first
               // option with the answer text before shuffling
               if (p.answer) {
-                opts[0] = p.answer
+                opts[0] = p.answer.trim()
+              }
+              const others = opts.slice(1)
+              if (others.length) {
+                const avg = others.reduce((a, b) => a + b.length, 0) / others.length
+                if (opts[0].length > avg * 1.5) {
+                  const shortened = opts[0]
+                    .slice(0, Math.ceil(avg * 1.2))
+                    .replace(/\s+\S*$/, '')
+                  opts[0] = `${shortened}...`
+                }
               }
               shuffle(opts)
             }

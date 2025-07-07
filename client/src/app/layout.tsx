@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <link rel="icon" href="/Favicon.png" />
       </head>
-      <body className="flex flex-col min-h-screen relative">
+      <body className="flex flex-col min-h-screen relative font-body">
         <Providers>
           <video
             autoPlay

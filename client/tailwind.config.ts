@@ -5,7 +5,12 @@ const config: Config = {
     './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        display: ['"Orbitron"', 'sans-serif'],
+        body: ['"Inter"', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
