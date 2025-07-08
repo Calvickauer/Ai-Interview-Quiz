@@ -122,16 +122,6 @@ export default async function handler(
               if (p.answer) {
                 opts[0] = p.answer.trim()
               }
-              const others = opts.slice(1)
-              if (others.length) {
-                const avg = others.reduce((a, b) => a + b.length, 0) / others.length
-                if (opts[0].length > avg * 1.5) {
-                  const shortened = opts[0]
-                    .slice(0, Math.ceil(avg * 1.2))
-                    .replace(/\s+\S*$/, '')
-                  opts[0] = `${shortened}...`
-                }
-              }
               shuffle(opts)
             }
             return {
