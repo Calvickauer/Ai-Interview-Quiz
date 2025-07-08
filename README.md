@@ -13,9 +13,9 @@ an avatar and short bio.
    cd client
    npm install
    ```
-2. Run Prisma database migrations.
+2. Push the Prisma schema to your database.
    ```bash
-   npx prisma migrate dev --name init
+   npx prisma db push
    ```
 3. Start the development server.
    ```bash
@@ -26,12 +26,12 @@ an avatar and short bio.
    npm run lint
    npm test
    ```
-5. Configure environment variables for the Next.js app by copying `client/.env.example` to `client/.env.local` and filling in the values. In addition to `OPENAI_API_KEY`, `JWT_SECRET` and `DATABASE_URL`, set the Google OAuth (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`). `DATABASE_URL` should point to your Supabase PostgreSQL instance. After modifying the schema run `npx prisma migrate dev` to apply the new migration for the verification fields.
+5. Configure environment variables for the Next.js app by copying `client/.env.example` to `client/.env.local` and filling in the values. In addition to `OPENAI_API_KEY`, `JWT_SECRET` and `DATABASE_URL`, set the Google OAuth (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`). `DATABASE_URL` should point to your Supabase PostgreSQL instance. After modifying the schema run `npx prisma db push` to update the database schema.
 
 The application stores user data in a Supabase PostgreSQL database using Prisma.
 After cloning the repo you can inspect the `client/prisma/schema.prisma` file which describes
-the database models. New fields can be added and migrations generated with
-`npx prisma migrate dev`.
+the database models. New fields can be added and the schema synchronized with
+`npx prisma db push`.
 
 ## Folder Structure
 
