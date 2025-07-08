@@ -20,7 +20,7 @@ export default function LoginPage() {
     if (res?.error) {
       alert('Login failed')
     } else {
-      router.push('/dashboard')
+      router.push('/profile')
     }
   }
 
@@ -55,7 +55,7 @@ export default function LoginPage() {
             className="bg-red-500 text-white px-4 py-2"
             onClick={() => {
               console.log('login with google')
-              signIn('google', { callbackUrl: '/dashboard' })
+              signIn('google', { callbackUrl: '/profile' })
             }}
           >
             Sign in with Google
