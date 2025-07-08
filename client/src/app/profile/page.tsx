@@ -14,6 +14,8 @@ export default function ProfilePage() {
   const [bio, setBio] = useState('')
   const [sessions, setSessions] = useState<any[]>([])
   const [editing, setEditing] = useState(false)
+  const [apiAccess, setApiAccess] = useState(false)
+  const [accessRequested, setAccessRequested] = useState(false)
   const router = useRouter()
   const { data: session, status } = useSession()
 
@@ -30,6 +32,8 @@ export default function ProfilePage() {
         setBio(data.bio || '')
         setAvatarUrl(data.avatarUrl || null)
         setSessions(data.sessions || [])
+        setApiAccess(!!data.apiAccess)
+        setAccessRequested(!!data.accessRequested)
       })
       .catch((err) => console.error('Profile fetch error', err))
   }, [router, session, status])
@@ -60,6 +64,16 @@ export default function ProfilePage() {
       setEditing(false)
     } else {
       alert('Profile update failed')
+    }
+  }
+
+  const requestAccess = async () => {
+    const res = await fetch('/api/user/request-token', { method: 'POST' })
+    if (res.ok) {
+      alert('Access requested')
+      setAccessRequested(true)
+    } else {
+      alert('Request failed')
     }
   }
 
@@ -123,6 +137,21 @@ export default function ProfilePage() {
           <button className="bg-blue-500 text-white px-4 py-2" onClick={() => setEditing(true)}>
             Edit Profile
           </button>
+          <div className="mt-4">
+            {apiAccess ? (
+              <p className="text-green-600 font-semibold">You have API access.</p>
+            ) : accessRequested ? (
+              <p className="text-yellow-600">Access request pending.</p>
+            ) : (
+              <button
+                type="button"
+                className="bg-blue-500 text-white px-4 py-2"
+                onClick={requestAccess}
+              >
+                Request API Access
+              </button>
+            )}
+          </div>
         </div>
       )}
         {sessions.length > 0 && (

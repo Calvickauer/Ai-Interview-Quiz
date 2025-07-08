@@ -63,6 +63,9 @@ the database models. New fields can be added and migrations generated with
   profile.
 - **Testing:** Jest and React Testing Library are configured inside `client/` to
   ensure pages behave as expected.
+- **API Access Management:** users can request access to the shared OpenAI token
+  from their profile page. Administrators can grant or revoke access from the
+  admin dashboard, and quiz generation checks these permissions.
 
 ## Deployment with Vercel
 
