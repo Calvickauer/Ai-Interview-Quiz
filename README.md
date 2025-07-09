@@ -81,8 +81,8 @@ the database models. New fields can be added and migrations generated with
    - `OPENAI_API_KEY`
    - `JWT_SECRET`
   - `DATABASE_URL` (the PostgreSQL connection string from your Supabase project)
-4. Deploy from the repository root using the provided script:
+4. Deploy the project using the script inside the `client` directory:
    ```bash
-   ./deploy.sh
+   client/deploy.sh
    ```
-   The script calls `vercel --prod` with the project located in the `client/` directory.
+   The script runs `vercel --prod` and sets the working directory to `client/`.
