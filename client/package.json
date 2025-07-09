@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "vercel-build": "prisma migrate deploy && prisma generate && next build"
+    "vercel-build": "prisma migrate deploy && prisma generate && next build",
+    "check-db": "node scripts/check-db.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
