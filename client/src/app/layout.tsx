@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </video>
           <Navbar />
           <div className="flex-grow flex flex-col items-center p-4">
-            <div className="mx-auto w-full max-w-2xl bg-white bg-opacity-70 backdrop-blur-md rounded shadow p-4">
+            <div className="mx-auto w-full max-w-2xl bg-white bg-opacity-70 backdrop-blur-md rounded shadow p-5">
               {children}
             </div>
           </div>
