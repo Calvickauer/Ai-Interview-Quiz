@@ -77,18 +77,18 @@ the database models. New fields can be added and migrations generated with
    ```bash
    vercel login
    ```
-3. Set the required environment variables in Vercel:
+3. Set the required environment variables in Vercel and configure the project's **Root Directory** to `client/`:
    - `OPENAI_API_KEY`
    - `JWT_SECRET`
- - `DATABASE_URL` (the PostgreSQL connection string from your Supabase project)
+   - `DATABASE_URL` (the PostgreSQL connection string from your Supabase project)
 4. (Optional) Verify the database connection locally before deploying:
    ```bash
    cd client
    npm run check-db
    ```
    This script attempts to connect using `DATABASE_URL` and logs the result.
-5. Deploy the project using the script inside the `client` directory:
+5. Deploy the project using the script at the repository root:
    ```bash
-   client/deploy.sh
+   ./deploy.sh
    ```
-   The script runs `vercel --prod` and sets the working directory to `client/`.
+   The script runs `vercel --prod`. Ensure the Vercel Root Directory is set to `client/`.
